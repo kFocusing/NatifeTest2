@@ -9,37 +9,31 @@ import UIKit
 
 protocol AssemblyBuilderProtocol {
     func createPostListModule(router: RouterProtocol) -> UIViewController
-    func createPostDetailModule(router: RouterProtocol, post: PostModel) -> UIViewController
+    func createPostDetailModule(router: RouterProtocol, postID: Int) -> UIViewController
 }
 
 class AssemblyModelBuilder: AssemblyBuilderProtocol {
-//    func createPostListModule(router: RouterProtocol) -> UIViewController {
-//        return UIViewController()
-//    }
-    
-    func createPostDetailModule(router: RouterProtocol, post: PostModel) -> UIViewController {
-        return UIViewController()
-    }
-    
     
     //MARK: - Internal -
     func createPostListModule(router: RouterProtocol) -> UIViewController {
         let view = PostListViewController()
         let networkService = NetworkService()
         let presenter = PostListPresenter(view: view,
-                                     networkService: networkService,
-                                     router: router)
+                                          networkService: networkService,
+                                          router: router)
         view.presenter = presenter
         return view
     }
-
-//    func createPostDetailModule(router: RouterProtocol,
-//                            post: PostModel) -> UIViewController {
-//        let view = PostDetailViewController()
-//        let presenter = PostDetailPresenter(view: view,
-//                                        router: router,
-//                                        post: PostModel)
-//        view.presenter = presenter
-//        return view
-//    }
+    
+    func createPostDetailModule(router: RouterProtocol,
+                                postID: Int) -> UIViewController {
+        let view = PostDetailViewController()
+        let networkService = NetworkService()
+        let presenter = PostDetailPresenter(view: view,
+                                            networkService: networkService,
+                                            router: router,
+                                            postID: postID)
+        view.presenter = presenter
+        return view
+    }
 }

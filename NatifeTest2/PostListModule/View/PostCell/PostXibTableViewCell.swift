@@ -22,10 +22,10 @@ class PostXibTableViewCell: BaseTableViewCell {
     @IBOutlet private weak var readMoreButton: UIButton!
     
     weak var delegate: UpdateCellSizeDelegate?
-    private var post: PostModel?
+    private var post: PreviewPostModel?
     
     //MARK: - Internal -
-    func configure(post: PostModel) {
+    func configure(post: PreviewPostModel) {
         self.post = post
         setTitle()
         setText()

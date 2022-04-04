@@ -7,6 +7,52 @@
 
 import Foundation
 
-class PostDetailPresenter {
+protocol PostDetailViewProtocol: AnyObject {
+    func configureUIElements(detailPost: DetailPostModel)
+}
+
+protocol PostDetailViewPresenterProtocol: AnyObject {
+    init(view: PostDetailViewProtocol,
+         networkService: NetworkService,
+         router: RouterProtocol,
+         postID: Int)
+    func getDetailPost(postID: Int)
+    func viewDidLoad()
+}
+
+class PostDetailPresenter: PostDetailViewPresenterProtocol {
+   
+    private weak var view: PostDetailViewProtocol?
+    private var router: RouterProtocol?
+    private let networkService: NetworkServiceProtocol!
+    private var postID: Int
+    private var detailPost: DetailPostModel?
     
+    required init(view: PostDetailViewProtocol,
+                  networkService: NetworkService,
+                  router: RouterProtocol,
+                  postID: Int) {
+        self.view = view
+        self.networkService = networkService
+        self.postID = postID
+        self.router = router
+    }
+    
+    func viewDidLoad() {
+        getDetailPost(postID: postID)
+    }
+    
+    func getDetailPost(postID: Int) {
+        let URLString = "https://raw.githubusercontent.com/aShaforostov/jsons/master/api/posts/\(postID).json"
+        guard let url = URL(string: URLString) else { return }
+        networkService.getData(url: url, expacting: DetailPostModelRequest.self) { [weak self] result in
+            switch result {
+            case .success(let post):
+                self?.detailPost = post.post
+                self?.view?.configureUIElements(detailPost: post.post)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
 }

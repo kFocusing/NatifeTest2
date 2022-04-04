@@ -28,6 +28,29 @@ class NetworkService: NetworkServiceProtocol {
                }
            }.resume()
        }
+    
+    func getDataRequestAPI<T: Codable>(url: URL,
+                                       expacting: T.Type,
+                                       completion: @escaping (Result<T, Error>) -> Void) {
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if let data = data {
+                if let post = self.parseJson(data, expacting: expacting) {
+                    completion(.success(post))
+                } else {
+                    completion(.failure(NetworkingError.failedParseJSON))
+                }
+            } else if let error = error {
+                print("HTTP Request Failed \(error)")
+            }
+        }
+
+        task.resume()
+        
+    }
        
        //MARK: - Private -
        private func parseJson<T: Codable>(_ data: Data, expacting: T.Type) -> T? {

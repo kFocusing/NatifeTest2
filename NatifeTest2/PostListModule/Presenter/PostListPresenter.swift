@@ -16,18 +16,20 @@ protocol PostListPresenterProtocol: AnyObject {
     init(view: PostListViewProtocol,
          networkService: NetworkServiceProtocol,
          router: RouterProtocol)
-    func item(at index: Int) -> PostModel
+    func item(at index: Int) -> PreviewPostModel
     func itemsCount() -> Int
     func viewDidLoad()
-    var posts: [PostModel]! { get set }
+    func tapPostDetail(postID: Int)
+    var posts: [PreviewPostModel]! { get set }
 }
 
 class PostListPresenter: PostListPresenterProtocol {
+    
     //MARK: - Variables -
     weak var view: PostListViewProtocol?
     var router: RouterProtocol?
     let networkService: NetworkServiceProtocol!
-    var posts: [PostModel]!
+    var posts: [PreviewPostModel]!
     
     //MARK: - Life Cycle -
     required init(view: PostListViewProtocol,
@@ -45,7 +47,7 @@ class PostListPresenter: PostListPresenterProtocol {
     private func getPosts() {
         let URLString = "https://raw.githubusercontent.com/aShaforostov/jsons/master/api/main.json"
         guard let url = URL(string: URLString) else { return }
-        networkService.getData(url: url, expacting: PostListModel.self) { [weak self] result in
+        networkService.getData(url: url, expacting: PreviewPostListModel.self) { [weak self] result in
             switch result {
             case .success(let posts):
                 self?.posts = posts.posts
@@ -56,15 +58,15 @@ class PostListPresenter: PostListPresenterProtocol {
         }
     }
     
-    func tapOnTheComment(post: PostModel) {
-        router?.showPostDetailViewController(post: post)
-    }
-    
-    func item(at index: Int) -> PostModel {
+    func item(at index: Int) -> PreviewPostModel {
         return posts[index]
     }
     
     func itemsCount() -> Int {
         return posts.count
+    }
+    
+    func tapPostDetail(postID: Int) {
+        router?.showPostDetailViewController(postID: postID)
     }
 }

@@ -29,6 +29,7 @@ class PostListViewController: UIViewController {
         setupNavigationBar()
     }
     
+    
     // MARK: - Internal -
     func setupTableView() {
         DispatchQueue.main.async { [weak self] in
@@ -40,7 +41,7 @@ class PostListViewController: UIViewController {
     
     //MARK: - Private -
     private func layoutTableView() {
-        tableView.pinEdges(to: self.view)
+        tableView.pinEdges(to: self.view, topSpace: -35)
     }
     
     private func setupNavigationBar() {
@@ -96,7 +97,12 @@ extension PostListViewController: UITableViewDataSource {
 }
 
 //MARK: - UITableViewDelegate -
-extension PostListViewController: UITableViewDelegate { }
+extension PostListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        presenter.tapPostDetail(postID: presenter.item(at: indexPath.item).postID)
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
 
 extension PostListViewController: PostListViewProtocol { }
 
