@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  PostXibTableViewCell.swift
 //  NatifeTest2
 //
 //  Created by Danylo Klymov on 01.04.2022.
@@ -21,6 +21,7 @@ class PostXibTableViewCell: BaseTableViewCell {
     @IBOutlet private weak var likesCount: UILabel!
     @IBOutlet private weak var readMoreButton: UIButton!
     
+    //MARK: - Variables -
     weak var delegate: UpdateCellSizeDelegate?
     private var post: PreviewPostModel?
     
@@ -35,7 +36,7 @@ class PostXibTableViewCell: BaseTableViewCell {
     }
     
     //MARK: - Private -
-    @IBAction func readMoreButtonPressed(_ sender: Any) {
+    @IBAction private func readMoreButtonPressed(_ sender: Any) {
         guard var post = self.post, let delegate = delegate  else { return }
         if post.isExpended {
             previewTextLabel.numberOfLines = 2
@@ -50,7 +51,6 @@ class PostXibTableViewCell: BaseTableViewCell {
         self.post = post
     }
     
-    //MARK: - Private -
     private func setTitle() {
         guard let post = post else { return }
         titleLabel.text = post.title

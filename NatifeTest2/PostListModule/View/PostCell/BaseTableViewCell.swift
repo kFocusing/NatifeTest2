@@ -1,5 +1,5 @@
 //
-//  postsmodel.swift
+//  BaseTableViewCell.swift
 //  NatifeTest2
 //
 //  Created by Danylo Klymov on 01.04.2022.
@@ -16,6 +16,5 @@ class BaseTableViewCell: UITableViewCell,
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-//        selectionStyle = .none
     }
 }

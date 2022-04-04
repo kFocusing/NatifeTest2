@@ -18,7 +18,7 @@
 		C786EB4E27F798AD008D36BF /* PostListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C786EB4D27F798AD008D36BF /* PostListViewController.swift */; };
 		C786EB5027F798B8008D36BF /* PostListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C786EB4F27F798B8008D36BF /* PostListPresenter.swift */; };
 		C786EB5227F798C0008D36BF /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C786EB5127F798C0008D36BF /* BaseTableViewCell.swift */; };
-		C786EB5427F798C9008D36BF /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C786EB5327F798C9008D36BF /* PostModel.swift */; };
+		C786EB5427F798C9008D36BF /* PreviewPostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C786EB5327F798C9008D36BF /* PreviewPostModel.swift */; };
 		C786EB5627F798DD008D36BF /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C786EB5527F798DD008D36BF /* PostDetailViewController.swift */; };
 		C786EB5827F798E6008D36BF /* PostDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C786EB5727F798E6008D36BF /* PostDetailPresenter.swift */; };
 		C786EB5A27F798EF008D36BF /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C786EB5927F798EF008D36BF /* NetworkService.swift */; };
@@ -26,6 +26,8 @@
 		C786EB5E27F79905008D36BF /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C786EB5D27F79905008D36BF /* IntExtension.swift */; };
 		C786EB6027F79911008D36BF /* CellRegister&DequeueReusableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C786EB5F27F79911008D36BF /* CellRegister&DequeueReusableExtension.swift */; };
 		C786EB7827FA007F008D36BF /* PostXibTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C786EB7727FA007F008D36BF /* PostXibTableViewCell.xib */; };
+		C7ACEA2527FB7DC000EEC87F /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7ACEA2427FB7DC000EEC87F /* UILabelExtension.swift */; };
+		C7ACEA2727FB7DFB00EEC87F /* DetailPostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7ACEA2627FB7DFB00EEC87F /* DetailPostModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,7 +44,7 @@
 		C786EB4D27F798AD008D36BF /* PostListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostListViewController.swift; sourceTree = "<group>"; };
 		C786EB4F27F798B8008D36BF /* PostListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostListPresenter.swift; sourceTree = "<group>"; };
 		C786EB5127F798C0008D36BF /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
-		C786EB5327F798C9008D36BF /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
+		C786EB5327F798C9008D36BF /* PreviewPostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewPostModel.swift; sourceTree = "<group>"; };
 		C786EB5527F798DD008D36BF /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		C786EB5727F798E6008D36BF /* PostDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailPresenter.swift; sourceTree = "<group>"; };
 		C786EB5927F798EF008D36BF /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
@@ -50,6 +52,8 @@
 		C786EB5D27F79905008D36BF /* IntExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
 		C786EB5F27F79911008D36BF /* CellRegister&DequeueReusableExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CellRegister&DequeueReusableExtension.swift"; sourceTree = "<group>"; };
 		C786EB7727FA007F008D36BF /* PostXibTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostXibTableViewCell.xib; sourceTree = "<group>"; };
+		C7ACEA2427FB7DC000EEC87F /* UILabelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtension.swift; sourceTree = "<group>"; };
+		C7ACEA2627FB7DFB00EEC87F /* DetailPostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPostModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +145,7 @@
 		C786EB6827F9E8DF008D36BF /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				C7ACEA2627FB7DFB00EEC87F /* DetailPostModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -164,7 +169,7 @@
 		C786EB6B27F9E8F6008D36BF /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				C786EB5327F798C9008D36BF /* PostModel.swift */,
+				C786EB5327F798C9008D36BF /* PreviewPostModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -203,6 +208,7 @@
 				C786EB5F27F79911008D36BF /* CellRegister&DequeueReusableExtension.swift */,
 				C786EB5D27F79905008D36BF /* IntExtension.swift */,
 				C786EB5B27F798F6008D36BF /* UIViewExtension.swift */,
+				C7ACEA2427FB7DC000EEC87F /* UILabelExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -316,16 +322,18 @@
 			files = (
 				C786EB5E27F79905008D36BF /* IntExtension.swift in Sources */,
 				C786EB5027F798B8008D36BF /* PostListPresenter.swift in Sources */,
-				C786EB5427F798C9008D36BF /* PostModel.swift in Sources */,
+				C786EB5427F798C9008D36BF /* PreviewPostModel.swift in Sources */,
 				C786EB4C27F7989F008D36BF /* AssemblyModelBuilder.swift in Sources */,
 				C786EB4A27F79896008D36BF /* Router.swift in Sources */,
 				C786EB2A27F73577008D36BF /* PostXibTableViewCell.swift in Sources */,
+				C7ACEA2727FB7DFB00EEC87F /* DetailPostModel.swift in Sources */,
 				C786EB2627F73577008D36BF /* AppDelegate.swift in Sources */,
 				C786EB5827F798E6008D36BF /* PostDetailPresenter.swift in Sources */,
 				C786EB5227F798C0008D36BF /* BaseTableViewCell.swift in Sources */,
 				C786EB5627F798DD008D36BF /* PostDetailViewController.swift in Sources */,
 				C786EB6027F79911008D36BF /* CellRegister&DequeueReusableExtension.swift in Sources */,
 				C786EB5C27F798F6008D36BF /* UIViewExtension.swift in Sources */,
+				C7ACEA2527FB7DC000EEC87F /* UILabelExtension.swift in Sources */,
 				C786EB4E27F798AD008D36BF /* PostListViewController.swift in Sources */,
 				C786EB5A27F798EF008D36BF /* NetworkService.swift in Sources */,
 				C786EB2827F73577008D36BF /* SceneDelegate.swift in Sources */,

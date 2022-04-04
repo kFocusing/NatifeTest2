@@ -9,6 +9,7 @@ import UIKit
 
 class PostDetailViewController: UIViewController {
     
+    //MARK: - Variables -
     private lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView()
         scroll.translatesAutoresizingMaskIntoConstraints = false
@@ -81,6 +82,7 @@ class PostDetailViewController: UIViewController {
     
     var presenter: PostDetailViewPresenterProtocol!
     
+    //MARK: - Life Cycle -
     override func viewDidLoad() {
         super.viewDidLoad()
         layoutUIElements()
@@ -90,6 +92,7 @@ class PostDetailViewController: UIViewController {
         
     }
     
+    //MARK: - Internal - 
     func configureUIElements(detailPost: DetailPostModel) {
         DispatchQueue.main.async {
             self.configureTitleLabel(post: detailPost)

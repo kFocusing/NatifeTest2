@@ -21,13 +21,15 @@ protocol PostDetailViewPresenterProtocol: AnyObject {
 }
 
 class PostDetailPresenter: PostDetailViewPresenterProtocol {
-   
+    
+    //MARK: - Variables -
     private weak var view: PostDetailViewProtocol?
     private var router: RouterProtocol?
     private let networkService: NetworkServiceProtocol!
     private var postID: Int
     private var detailPost: DetailPostModel?
     
+    //MARK: - Life Cycle -
     required init(view: PostDetailViewProtocol,
                   networkService: NetworkService,
                   router: RouterProtocol,
@@ -38,6 +40,7 @@ class PostDetailPresenter: PostDetailViewPresenterProtocol {
         self.router = router
     }
     
+    //MARK: Internal
     func viewDidLoad() {
         getDetailPost(postID: postID)
     }

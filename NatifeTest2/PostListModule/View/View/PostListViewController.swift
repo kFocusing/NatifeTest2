@@ -29,7 +29,6 @@ class PostListViewController: UIViewController {
         setupNavigationBar()
     }
     
-    
     // MARK: - Internal -
     func setupTableView() {
         DispatchQueue.main.async { [weak self] in

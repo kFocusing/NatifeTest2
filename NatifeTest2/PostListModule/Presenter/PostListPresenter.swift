@@ -40,22 +40,9 @@ class PostListPresenter: PostListPresenterProtocol {
         self.router = router
     }
     
+    //MARK: - Internal -
     func viewDidLoad() {
         getPosts()
-    }
-    
-    private func getPosts() {
-        let URLString = "https://raw.githubusercontent.com/aShaforostov/jsons/master/api/main.json"
-        guard let url = URL(string: URLString) else { return }
-        networkService.getData(url: url, expacting: PreviewPostListModel.self) { [weak self] result in
-            switch result {
-            case .success(let posts):
-                self?.posts = posts.posts
-                self?.view?.setupTableView()
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
     }
     
     func item(at index: Int) -> PreviewPostModel {
@@ -68,5 +55,20 @@ class PostListPresenter: PostListPresenterProtocol {
     
     func tapPostDetail(postID: Int) {
         router?.showPostDetailViewController(postID: postID)
+    }
+    
+    //MARK: - Private -
+    private func getPosts() {
+        let URLString = "https://raw.githubusercontent.com/aShaforostov/jsons/master/api/main.json"
+        guard let url = URL(string: URLString) else { return }
+        networkService.getData(url: url, expacting: PreviewPostListModel.self) { [weak self] result in
+            switch result {
+            case .success(let posts):
+                self?.posts = posts.posts
+                self?.view?.setupTableView()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }
