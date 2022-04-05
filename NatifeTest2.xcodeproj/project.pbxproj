@@ -28,6 +28,7 @@
 		C786EB7827FA007F008D36BF /* PostXibTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C786EB7727FA007F008D36BF /* PostXibTableViewCell.xib */; };
 		C7ACEA2527FB7DC000EEC87F /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7ACEA2427FB7DC000EEC87F /* UILabelExtension.swift */; };
 		C7ACEA2727FB7DFB00EEC87F /* DetailPostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7ACEA2627FB7DFB00EEC87F /* DetailPostModel.swift */; };
+		C7ACEA2927FC477500EEC87F /* PostsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7ACEA2827FC477500EEC87F /* PostsService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		C786EB7727FA007F008D36BF /* PostXibTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostXibTableViewCell.xib; sourceTree = "<group>"; };
 		C7ACEA2427FB7DC000EEC87F /* UILabelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtension.swift; sourceTree = "<group>"; };
 		C7ACEA2627FB7DFB00EEC87F /* DetailPostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPostModel.swift; sourceTree = "<group>"; };
+		C7ACEA2827FC477500EEC87F /* PostsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				C786EB5927F798EF008D36BF /* NetworkService.swift */,
+				C7ACEA2827FC477500EEC87F /* PostsService.swift */,
 			);
 			path = NetworkService;
 			sourceTree = "<group>";
@@ -331,6 +334,7 @@
 				C786EB5827F798E6008D36BF /* PostDetailPresenter.swift in Sources */,
 				C786EB5227F798C0008D36BF /* BaseTableViewCell.swift in Sources */,
 				C786EB5627F798DD008D36BF /* PostDetailViewController.swift in Sources */,
+				C7ACEA2927FC477500EEC87F /* PostsService.swift in Sources */,
 				C786EB6027F79911008D36BF /* CellRegister&DequeueReusableExtension.swift in Sources */,
 				C786EB5C27F798F6008D36BF /* UIViewExtension.swift in Sources */,
 				C7ACEA2527FB7DC000EEC87F /* UILabelExtension.swift in Sources */,

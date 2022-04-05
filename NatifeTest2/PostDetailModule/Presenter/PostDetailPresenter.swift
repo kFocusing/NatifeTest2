@@ -13,7 +13,7 @@ protocol PostDetailViewProtocol: AnyObject {
 
 protocol PostDetailViewPresenterProtocol: AnyObject {
     init(view: PostDetailViewProtocol,
-         networkService: NetworkService,
+         postsService: PostsServiceProtocol,
          router: RouterProtocol,
          postID: Int)
     func getDetailPost(postID: Int)
@@ -25,17 +25,17 @@ class PostDetailPresenter: PostDetailViewPresenterProtocol {
     //MARK: - Variables -
     private weak var view: PostDetailViewProtocol?
     private var router: RouterProtocol?
-    private let networkService: NetworkServiceProtocol!
+    private let postsService: PostsServiceProtocol!
     private var postID: Int
     private var detailPost: DetailPostModel?
     
     //MARK: - Life Cycle -
     required init(view: PostDetailViewProtocol,
-                  networkService: NetworkService,
+                  postsService: PostsServiceProtocol,
                   router: RouterProtocol,
                   postID: Int) {
         self.view = view
-        self.networkService = networkService
+        self.postsService = postsService
         self.postID = postID
         self.router = router
     }
@@ -46,9 +46,8 @@ class PostDetailPresenter: PostDetailViewPresenterProtocol {
     }
     
     func getDetailPost(postID: Int) {
-        let URLString = "https://raw.githubusercontent.com/aShaforostov/jsons/master/api/posts/\(postID).json"
-        guard let url = URL(string: URLString) else { return }
-        networkService.getData(url: url, expacting: DetailPostModelRequest.self) { [weak self] result in
+        postsService.fetchPost(route: "posts/\(postID).json",
+                               expacting: DetailPostModelRequest.self) { [weak self] result in
             switch result {
             case .success(let post):
                 self?.detailPost = post.post

@@ -8,64 +8,46 @@
 import Foundation
 
 protocol NetworkServiceProtocol {
-    func getData<T: Codable>(url: URL, expacting: T.Type, completion: @escaping (Result<T, Error>) -> Void) 
+    func request(route: String, completion: @escaping (_ result: RequestResult) -> Void)
 }
 
-class NetworkService: NetworkServiceProtocol {
+enum RequestResult {
+    case success(data: Data)
+    case failure(error: CustomError)
+}
+
+class APIManager: NetworkServiceProtocol {
     
-    //MARK: - Internal -
-    func getData<T: Codable>(url: URL, expacting: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
-        let session = URLSession(configuration: .default)
+    private let baseURL = "https://raw.githubusercontent.com/aShaforostov/jsons/master/api/"
+    
+    static let shared = APIManager()
+    
+    private init() {}
+    
+    func request(route: String,
+                 completion: @escaping (_ result: RequestResult) -> Void) {
         
-           session.dataTask(with: url) { (data, _, error) in
-               guard let data = data, error == nil else {
-                   completion(.failure(NetworkingError.failedResponseJSON))
-                   return
-               }
-               if let post = self.parseJson(data, expacting: expacting) {
-                   completion(.success(post))
-               } else {
-                   completion(.failure(NetworkingError.failedParseJSON))
-               }
-           }.resume()
-       }
-    
-    func getDataRequestAPI<T: Codable>(url: URL,
-                                       expacting: T.Type,
-                                       completion: @escaping (Result<T, Error>) -> Void) {
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let data = data {
-                if let post = self.parseJson(data, expacting: expacting) {
-                    completion(.success(post))
-                } else {
-                    completion(.failure(NetworkingError.failedParseJSON))
-                }
-            } else if let error = error {
-                print("HTTP Request Failed \(error)")
-            }
+        let fullURLString = baseURL + route
+        guard let url = URL(string: fullURLString) else {
+            completion(.failure(error: CustomError(message: "Invalid route")))
+            return
         }
-
-        task.resume()
         
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "GET"
+        
+        let session = URLSession(configuration: .default)
+        session.dataTask(with: urlRequest) { data, response, error in
+            guard let data = data else {
+                completion(.failure(error: CustomError(message: "Couldn't get data from the server")))
+                return
+            }
+            completion(.success(data: data))
+        }.resume()
     }
-       
-       //MARK: - Private -
-       private func parseJson<T: Codable>(_ data: Data, expacting: T.Type) -> T? {
-           let decoder = JSONDecoder()
-           do {
-               let decodateData = try decoder.decode(expacting, from: data)
-               return decodateData
-           } catch {
-               return nil
-           }
-       }
-       
-       private enum NetworkingError: Error {
-           case failedResponseJSON
-           case failedParseJSON
-       }
+}
+
+struct CustomError {
+    var code: Int?
+    var message: String?
 }

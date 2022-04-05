@@ -17,9 +17,9 @@ class AssemblyModelBuilder: AssemblyBuilderProtocol {
     //MARK: - Internal -
     func createPostListModule(router: RouterProtocol) -> UIViewController {
         let view = PostListViewController()
-        let networkService = NetworkService()
+        let postsService = PostsService()
         let presenter = PostListPresenter(view: view,
-                                          networkService: networkService,
+                                          postsService: postsService,
                                           router: router)
         view.presenter = presenter
         return view
@@ -28,9 +28,9 @@ class AssemblyModelBuilder: AssemblyBuilderProtocol {
     func createPostDetailModule(router: RouterProtocol,
                                 postID: Int) -> UIViewController {
         let view = PostDetailViewController()
-        let networkService = NetworkService()
+        let postsService = PostsService()
         let presenter = PostDetailPresenter(view: view,
-                                            networkService: networkService,
+                                            postsService: postsService,
                                             router: router,
                                             postID: postID)
         view.presenter = presenter
