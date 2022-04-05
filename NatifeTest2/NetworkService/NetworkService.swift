@@ -16,11 +16,11 @@ enum RequestResult {
     case failure(error: CustomError)
 }
 
-class APIManager: NetworkServiceProtocol {
+class NetworkService: NetworkServiceProtocol {
     
     private let baseURL = "https://raw.githubusercontent.com/aShaforostov/jsons/master/api/"
     
-    static let shared = APIManager()
+    static let shared = NetworkService()
     
     private init() {}
     

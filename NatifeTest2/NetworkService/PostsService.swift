@@ -19,7 +19,7 @@ class PostsService: PostsServiceProtocol {
     func fetchPost<T: Codable>(route: String,
                                expacting: T.Type,
                                completion: @escaping (Result<T, Error>) -> Void) {
-        APIManager.shared.request(route: route) { result in
+        NetworkService.shared.request(route: route) { result in
             switch result {
             case .success(let data):
                 if let postResponse = self.parseJson(data, expacting: expacting) {
