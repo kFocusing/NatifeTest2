@@ -8,7 +8,8 @@
 import Foundation
 
 protocol PostDetailViewProtocol: AnyObject {
-    func configureUIElements(detailPost: DetailPostModel)
+    func update(with detailsModel: DetailPostModel)
+    func displayError(_ error: String?)
 }
 
 protocol PostDetailViewPresenterProtocol: AnyObject {
@@ -16,7 +17,6 @@ protocol PostDetailViewPresenterProtocol: AnyObject {
          postsService: PostsServiceProtocol,
          router: RouterProtocol,
          postID: Int)
-    func getDetailPost(postID: Int)
     func viewDidLoad()
 }
 
@@ -45,15 +45,14 @@ class PostDetailPresenter: PostDetailViewPresenterProtocol {
         getDetailPost(postID: postID)
     }
     
-    func getDetailPost(postID: Int) {
-        postsService.fetchPost(route: "posts/\(postID).json",
-                               expacting: DetailPostModelRequest.self) { [weak self] result in
+    private func getDetailPost(postID: Int) {
+        postsService.fetchPost(route: "posts/\(postID).json") { [weak self] result in
             switch result {
             case .success(let post):
                 self?.detailPost = post.post
-                self?.view?.configureUIElements(detailPost: post.post)
+                self?.view?.update(with: post.post)
             case .failure(let error):
-                print(error.localizedDescription)
+                self?.view?.displayError(error.message)
             }
         }
     }

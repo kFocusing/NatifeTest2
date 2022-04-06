@@ -7,8 +7,10 @@
 
 import Foundation
 
+typealias completion = (_ result: RequestResult) -> Void
+
 protocol NetworkServiceProtocol {
-    func request(route: String, completion: @escaping (_ result: RequestResult) -> Void)
+    func request(route: String, completion: @escaping completion)
 }
 
 enum RequestResult {
@@ -25,7 +27,7 @@ class NetworkService: NetworkServiceProtocol {
     private init() {}
     
     func request(route: String,
-                 completion: @escaping (_ result: RequestResult) -> Void) {
+                 completion: @escaping completion) {
         
         let fullURLString = baseURL + route
         guard let url = URL(string: fullURLString) else {
@@ -33,13 +35,12 @@ class NetworkService: NetworkServiceProtocol {
             return
         }
         
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "GET"
-        
+        let urlRequest = URLRequest(url: url)
+       
         let session = URLSession(configuration: .default)
         session.dataTask(with: urlRequest) { data, response, error in
             guard let data = data else {
-                completion(.failure(error: CustomError(message: "Couldn't get data from the server")))
+                completion(.failure(error: CustomError(message: "Invalid route")))
                 return
             }
             completion(.success(data: data))
@@ -47,7 +48,7 @@ class NetworkService: NetworkServiceProtocol {
     }
 }
 
-struct CustomError {
+struct CustomError: Error {
     var code: Int?
     var message: String?
 }

@@ -7,14 +7,7 @@
 
 import UIKit
 
-protocol UpdateCellSizeDelegate: AnyObject {
-    func readMoreTapped()
-    func updateIsExpended(withID id: Int)
-}
-
 class PostXibTableViewCell: BaseTableViewCell {
-    
-    //MARK: - IBOutlet -
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var previewTextLabel: UILabel!
     @IBOutlet private weak var publishDateLabel: UILabel!
@@ -22,68 +15,53 @@ class PostXibTableViewCell: BaseTableViewCell {
     @IBOutlet private weak var readMoreButton: UIButton!
     
     //MARK: - Variables -
-    weak var delegate: UpdateCellSizeDelegate?
+    var updateIsExpended: ((_ postID: Int) -> Void)?
+    var readMoreTapped: (() -> Void)?
     private var post: PreviewPostModel?
     
     //MARK: - Internal -
-    func configure(post: PreviewPostModel) {
+    func configure(post: PreviewPostModel?) {
         self.post = post
-        setTitle()
-        setText()
-        setLikesCount()
-        setPublishDate()
+        configureTextFields()
         configureExpandButton()
     }
     
     //MARK: - Private -
     @IBAction private func readMoreButtonPressed(_ sender: Any) {
-        guard var post = self.post, let delegate = delegate  else { return }
-        if post.isExpended {
-            previewTextLabel.numberOfLines = 2
-            readMoreButton.setTitle("Читать далее...", for: .normal)
-        } else {
-            previewTextLabel.numberOfLines = 0
-            readMoreButton.setTitle("Свернуть текст", for: .normal)
-        }
+        guard var post = self.post else { return }
+        post.isExpanded ? shortenText() : expandedText()
         updateLayout()
-        post.isExpended = !post.isExpended
-        delegate.updateIsExpended(withID: post.postID)
+        
+        updateIsExpended?(post.postID)
+        post.isExpanded.toggle()
         self.post = post
     }
-    
-    private func setTitle() {
-        guard let post = post else { return }
-        titleLabel.text = post.title
+   
+    private func configureTextFields() {
+        titleLabel.text = post?.title ?? ""
+        previewTextLabel.text = post?.previewText ?? ""
+        publishDateLabel.text = post?.timeshamp.timeshampToDateString() ?? ""
+        likesCount.text = String(post?.likesCount ?? 0)
     }
     
-    private func setText() {
-        guard let post = post else { return }
-        previewTextLabel.text = post.previewText
+    private func expandedText() {
+        previewTextLabel.numberOfLines = 0
+        readMoreButton.setTitle("Свернуть текст", for: .normal)
     }
     
-    private func setPublishDate() {
-        guard let post = post else { return }
-        publishDateLabel.text = post.timeshamp.timeshampToDateString()
-    }
-    
-    private func setLikesCount() {
-        guard let post = post else { return }
-        likesCount.text = String(post.likesCount)
+    private func shortenText() {
+        previewTextLabel.numberOfLines = 2
+        readMoreButton.setTitle("Читать далее...", for: .normal)
     }
     
     private func configureExpandButton() {
         guard let post = self.post else { return }
-        if post.isExpended {
-            previewTextLabel.numberOfLines = 0
-            readMoreButton.setTitle("Свернуть текст", for: .normal)
-        } else {
-            previewTextLabel.numberOfLines = 2
-            readMoreButton.setTitle("Читать далее...", for: .normal)
-        }
-        readMoreButton.isHidden = previewTextLabel.maxNumberOfLines <= 2
+        post.isExpanded ? expandedText() : shortenText()
+        readMoreButton.isHidden = previewTextLabel.numberLinesOfText <= 2
     }
     
     private func updateLayout() {
-        delegate?.readMoreTapped()
+        readMoreTapped?()
     }
 }
+

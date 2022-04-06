@@ -8,18 +8,19 @@
 import UIKit
 
 protocol PostListViewProtocol: AnyObject {
-    func setupTableView()
+    func update()
+    func displayError(_ error: String?)
 }
 
 protocol PostListPresenterProtocol: AnyObject {
     init(view: PostListViewProtocol,
          postsService: PostsServiceProtocol,
          router: RouterProtocol)
-    func item(at index: Int) -> PreviewPostModel
+    func item(at index: Int) -> PreviewPostModel?
     func itemsCount() -> Int
     func viewDidLoad()
+    var posts: [PreviewPostModel]? { get set }
     func tapPostDetail(postID: Int)
-    var posts: [PreviewPostModel]! { get set }
 }
 
 class PostListPresenter: PostListPresenterProtocol {
@@ -28,7 +29,7 @@ class PostListPresenter: PostListPresenterProtocol {
     weak var view: PostListViewProtocol?
     var router: RouterProtocol?
     let postsService: PostsServiceProtocol!
-    var posts: [PreviewPostModel]!
+    var posts: [PreviewPostModel]?
     
     //MARK: - Life Cycle -
     required init(view: PostListViewProtocol,
@@ -41,15 +42,16 @@ class PostListPresenter: PostListPresenterProtocol {
     
     //MARK: - Internal -
     func viewDidLoad() {
-        getPosts()
+        getPreviewPosts()
     }
     
-    func item(at index: Int) -> PreviewPostModel {
+    func item(at index: Int) -> PreviewPostModel? {
+        guard let posts = posts else { return nil }
         return posts[index]
     }
     
     func itemsCount() -> Int {
-        return posts.count
+        return posts?.count ?? 0
     }
     
     func tapPostDetail(postID: Int) {
@@ -57,15 +59,14 @@ class PostListPresenter: PostListPresenterProtocol {
     }
     
     //MARK: - Private -
-    private func getPosts() {
-        postsService.fetchPost(route: "main.json",
-                               expacting: PreviewPostListModel.self) { [weak self] result in
+    private func getPreviewPosts() {
+        postsService.fetchPostList(route: "main.json") { [weak self] result in
             switch result {
             case .success(let posts):
                 self?.posts = posts.posts
-                self?.view?.setupTableView()
+                self?.view?.update()
             case .failure(let error):
-                print(error.localizedDescription)
+                self?.view?.displayError(error.message)
             }
         }
     }

@@ -15,7 +15,7 @@ struct PreviewPostModel: Codable {
     let postID, timeshamp: Int
     let title, previewText: String
     let likesCount: Int
-    var isExpended = false
+    var isExpanded = false
 
     enum CodingKeys: String, CodingKey {
         case postID = "postId"

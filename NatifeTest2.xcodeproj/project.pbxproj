@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C76E67B927FD0C880023CE9D /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76E67B827FD0C880023CE9D /* BaseViewController.swift */; };
 		C786EB2627F73577008D36BF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C786EB2527F73577008D36BF /* AppDelegate.swift */; };
 		C786EB2827F73577008D36BF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C786EB2727F73577008D36BF /* SceneDelegate.swift */; };
 		C786EB2A27F73577008D36BF /* PostXibTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C786EB2927F73577008D36BF /* PostXibTableViewCell.swift */; };
@@ -32,6 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C76E67B827FD0C880023CE9D /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		C786EB2227F73577008D36BF /* NatifeTest2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NatifeTest2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C786EB2527F73577008D36BF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C786EB2727F73577008D36BF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				C786EB5527F798DD008D36BF /* PostDetailViewController.swift */,
+				C76E67B827FD0C880023CE9D /* BaseViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 				C786EB5027F798B8008D36BF /* PostListPresenter.swift in Sources */,
 				C786EB5427F798C9008D36BF /* PreviewPostModel.swift in Sources */,
 				C786EB4C27F7989F008D36BF /* AssemblyModelBuilder.swift in Sources */,
+				C76E67B927FD0C880023CE9D /* BaseViewController.swift in Sources */,
 				C786EB4A27F79896008D36BF /* Router.swift in Sources */,
 				C786EB2A27F73577008D36BF /* PostXibTableViewCell.swift in Sources */,
 				C7ACEA2727FB7DFB00EEC87F /* DetailPostModel.swift in Sources */,

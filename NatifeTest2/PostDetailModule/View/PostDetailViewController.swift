@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PostDetailViewController: UIViewController {
+class PostDetailViewController: BaseViewController {
     
     //MARK: - Variables -
     private lazy var scrollView: UIScrollView = {
@@ -21,34 +21,34 @@ class PostDetailViewController: UIViewController {
     
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
+        titleLabel.text = ""
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = .boldSystemFont(ofSize: 20)
         titleLabel.numberOfLines = 0
-        titleLabel.isHidden = true
         scrollView.addSubview(titleLabel)
         return titleLabel
     }()
     private lazy var detailTextLabel: UILabel = {
         let detailTextLabel = UILabel()
+        detailTextLabel.text = ""
         detailTextLabel.translatesAutoresizingMaskIntoConstraints = false
         detailTextLabel.numberOfLines = 0
-        detailTextLabel.isHidden = true
         scrollView.addSubview(detailTextLabel)
         return detailTextLabel
     }()
     private lazy var likesCountLabel: UILabel = {
         let likesCountLabel = UILabel()
+        likesCountLabel.text = ""
         likesCountLabel.translatesAutoresizingMaskIntoConstraints = false
         likesCountLabel.font = .boldSystemFont(ofSize: 17)
-        likesCountLabel.isHidden = true
         scrollView.addSubview(likesCountLabel)
         return likesCountLabel
     }()
     private lazy var publishDateLabel: UILabel = {
         let publishDateLabel = UILabel()
+        publishDateLabel.text = ""
         publishDateLabel.translatesAutoresizingMaskIntoConstraints = false
         publishDateLabel.font = .boldSystemFont(ofSize: 17)
-        publishDateLabel.isHidden = true
         publishDateLabel.textAlignment = .right
         scrollView.addSubview(publishDateLabel)
         return publishDateLabel
@@ -60,24 +60,16 @@ class PostDetailViewController: UIViewController {
         stackView.axis = .vertical
         stackView.spacing = 20
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.isHidden = true
         scrollView.addSubview(stackView)
         return stackView
     }()
     private lazy var likeImage: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.image = UIImage(systemName: "heart")
+        image.image = .none
         image.tintColor = UIColor(red: 183/255, green: 4/255, blue: 0/255, alpha: 1)
-        image.isHidden = true
         scrollView.addSubview(image)
         return image
-    }()
-    private lazy var activityIndicator: UIActivityIndicatorView! = {
-        let activityIndicator = UIActivityIndicatorView()
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(activityIndicator)
-        return activityIndicator
     }()
     
     var presenter: PostDetailViewPresenterProtocol!
@@ -86,29 +78,32 @@ class PostDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         layoutUIElements()
-        self.startActivityIndicator()
+        showActivityIndicator()
+        
         view.backgroundColor = .white
         presenter.viewDidLoad()
-        
     }
     
-    //MARK: - Internal - 
-    func configureUIElements(detailPost: DetailPostModel) {
+    //MARK: - Internal -
+    func update(with detailsModel: DetailPostModel) {
         DispatchQueue.main.async {
-            self.configureTitleLabel(post: detailPost)
-            self.configureDetailTextLabel(post: detailPost)
-            self.configureLikesCountLabel(post: detailPost)
-            self.configurePublishDateLabel(post: detailPost)
-            self.configureImageStackView(post: detailPost)
-            self.unHideUIElements()
-            self.activityIndicator.stopAnimating()
+            self.configureTitleLabel(post: detailsModel)
+            self.configureDetailTextLabel(post: detailsModel)
+            self.configureLikesCountLabel(post: detailsModel)
+            self.configurePublishDateLabel(post: detailsModel)
+            self.configureImageStackView(post: detailsModel)
+            self.makeLikeImageVisible()
+            self.hideActivityIndicator()
         }
+    }
+    
+    func displayError(_ error: String?) {
+        present(configureErrorAlert(error), animated: true, completion: nil)
     }
     
     //MARK: - Private -
     private func layoutUIElements() {
         layoutScrollView()
-        layoutActivityIndicator()
         layoutTitleLabel()
         layoutDetailTextLabel()
         layoutImageStackView()
@@ -118,7 +113,12 @@ class PostDetailViewController: UIViewController {
     }
     
     private func layoutScrollView() {
-        scrollView.pinEdges(to: view)
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
     
     private func layoutTitleLabel() {
@@ -173,13 +173,6 @@ class PostDetailViewController: UIViewController {
         ])
     }
     
-    private func layoutActivityIndicator() {
-        NSLayoutConstraint.activate([
-            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
-    }
-    
     private func configureTitleLabel(post: DetailPostModel) {
         titleLabel.text = post.title
     }
@@ -198,33 +191,41 @@ class PostDetailViewController: UIViewController {
     
     private func configureImageStackView(post: DetailPostModel) {
         for imageURL in post.images {
-            guard let url = URL(string: imageURL),
-                  let data = try? Data(contentsOf: url),
-                  let image = UIImage(data: data) else { return }
+            DispatchQueue.global().async {
+                guard let url = URL(string: imageURL),
+                      let data = try? Data(contentsOf: url),
+                      let image = UIImage(data: data) else { return }
+                self.setImageIntoStackView(image)
+            }
+        }
+    }
+    
+    private func setImageIntoStackView(_ image: UIImage) {
+        DispatchQueue.main.async {
             let imageView = UIImageView(image: image)
-            layoutImageIntoImagesStackView(imageView: imageView)
+            self.layoutImageIntoImagesStackView(imageView: imageView)
         }
     }
     
     private func layoutImageIntoImagesStackView(imageView: UIImageView) {
         NSLayoutConstraint.activate([
-            imageView.heightAnchor.constraint(equalToConstant: 200)
+            imageView.heightAnchor.constraint(equalToConstant: imagesStackView.frame.width)
         ])
         imagesStackView.addArrangedSubview(imageView)
     }
     
-    private func startActivityIndicator() {
-        activityIndicator.startAnimating()
-        activityIndicator.hidesWhenStopped = true
+    private func makeLikeImageVisible() {
+        likeImage.image = UIImage(systemName: "heart")
     }
     
-    private func unHideUIElements() {
-        titleLabel.isHidden.toggle()
-        detailTextLabel.isHidden.toggle()
-        publishDateLabel.isHidden.toggle()
-        likeImage.isHidden.toggle()
-        likesCountLabel.isHidden.toggle()
-        imagesStackView.isHidden.toggle()
+    private func configureErrorAlert(_ error: String?) -> UIAlertController {
+        let alert = UIAlertController(title: error ?? "",
+                                      message: nil,
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Okay",
+                                      style: .cancel,
+                                      handler: nil))
+        return alert
     }
 }
 

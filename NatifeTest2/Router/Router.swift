@@ -9,7 +9,7 @@ import UIKit
 
 protocol RouterMain {
     var navigationController: UINavigationController? { get set }
-    var assemblyBuilder: AssemblyBuilderProtocol? { get set }
+    var assemblyBuilder: AssemblyBuilderProtocol { get set }
 }
 
 protocol RouterProtocol: RouterMain {
@@ -21,7 +21,7 @@ protocol RouterProtocol: RouterMain {
 class Router: RouterProtocol {
     
     //MARK: - Variables -
-    var assemblyBuilder: AssemblyBuilderProtocol?
+    var assemblyBuilder: AssemblyBuilderProtocol
     var navigationController: UINavigationController?
     
     //MARK: - Life Cycle -
@@ -33,16 +33,12 @@ class Router: RouterProtocol {
     
     //MARK: - Internal -
     func showPostListViewController() {
-        guard let postListViewController =
-                assemblyBuilder?.createPostListModule(router: self) else { return }
-        navigationController?.viewControllers = [postListViewController]
+        navigationController?.viewControllers = [assemblyBuilder.createPostListModule(router: self)]
     }
     
     func showPostDetailViewController(postID: Int) {
-        guard let postDetailViewController =
-                assemblyBuilder?.createPostDetailModule(router: self,
-                                                       postID: postID) else { return }
-        navigationController?.pushViewController(postDetailViewController,
+        navigationController?.pushViewController( assemblyBuilder.createPostDetailModule(router: self,
+                                                                                         postID: postID),
                                                  animated: true)
     }
     
