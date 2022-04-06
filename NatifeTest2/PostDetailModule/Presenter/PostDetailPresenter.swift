@@ -10,6 +10,8 @@ import Foundation
 protocol PostDetailViewProtocol: AnyObject {
     func update(with detailsModel: DetailPostModel)
     func displayError(_ error: String?)
+    func showActivityIndicator()
+    func hideActivityIndicator()
 }
 
 protocol PostDetailViewPresenterProtocol: AnyObject {
@@ -42,6 +44,7 @@ class PostDetailPresenter: PostDetailViewPresenterProtocol {
     
     //MARK: Internal
     func viewDidLoad() {
+        view?.showActivityIndicator()
         getDetailPost(postID: postID)
     }
     

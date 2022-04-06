@@ -78,8 +78,6 @@ class PostDetailViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         layoutUIElements()
-        showActivityIndicator()
-        
         view.backgroundColor = .white
         presenter.viewDidLoad()
     }
