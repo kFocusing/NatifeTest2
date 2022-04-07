@@ -13,6 +13,7 @@ class BaseViewController: UIViewController {
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.hidesWhenStopped = true
         view.addSubview(activityIndicator)
         return activityIndicator
     }()
@@ -26,11 +27,21 @@ class BaseViewController: UIViewController {
     //MARK: -Internal
     func showActivityIndicator() {
         activityIndicator.startAnimating()
-        activityIndicator.hidesWhenStopped = true
     }
     
     func hideActivityIndicator() {
         activityIndicator.stopAnimating()
+    }
+    
+    func configureErrorAlert(with error: String?) {
+        let alert = UIAlertController(title: error ?? "",
+                                      message: nil,
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Okay",
+                                      style: .cancel,
+                                      handler: nil))
+        
+        present(alert, animated: true, completion: nil)
     }
     
     //MARK: - Private -

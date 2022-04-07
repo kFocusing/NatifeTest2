@@ -7,13 +7,14 @@
 
 import UIKit
 
-class PostListViewController: UIViewController {
+class PostListViewController: BaseViewController {
     
     //MARK: - Variables -
     private lazy var tableView: UITableView = {
         let table = UITableView(frame: .zero,
                                 style: .grouped)
         table.translatesAutoresizingMaskIntoConstraints = false
+        table.backgroundColor = .white
         table.dataSource = self
         table.delegate = self
         view.addSubview(table)
@@ -25,6 +26,7 @@ class PostListViewController: UIViewController {
     //MARK: - Life Cycle -
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         setupTableView()
         setupNavigationBar()
         presenter.viewDidLoad()
@@ -36,14 +38,22 @@ class PostListViewController: UIViewController {
             self?.tableView.reloadData()
         }
     }
-
+    
     func displayError(_ error: String?) {
-        present(configureErrorAlert(error), animated: true, completion: nil)
+        guard let error = error else {
+            return configureErrorAlert(with: "Error")
+        }
+        configureErrorAlert(with: error)
     }
     
     //MARK: - Private -
     private func layoutTableView() {
-        tableView.pinEdges(to: self.view, topSpace: -35)
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: -10),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
     
     private func setupTableView() {
@@ -57,52 +67,34 @@ class PostListViewController: UIViewController {
     }
     
     @objc private func sortPressed() {
-        self.present(configureSortAlert(), animated: true, completion: nil)
+        showSortAlert()
     }
     
-    private func configureSortAlert() -> UIAlertController {
+    private func showSortAlert() {
         let alert = UIAlertController(title: "Choose type of sorting",
                                       message: nil,
                                       preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Default",
                                       style: .default,
                                       handler: {_ in
-            self.presenter.posts = self.presenter.posts?.sorted(by: { $0.postID < $1.postID })
-            self.tableView.reloadData()
+            self.presenter.sortPosts(by: .defaultSort)
         }))
         alert.addAction(UIAlertAction(title: "Date",
                                       style: .default,
                                       handler: {_ in
-            self.presenter.posts = self.presenter.posts?.sorted(by: { $0.timeshamp > $1.timeshamp })
-            self.tableView.reloadData()
+            self.presenter.sortPosts(by: .dateSort)
         }))
         alert.addAction(UIAlertAction(title: "Rating",
                                       style: .default,
                                       handler: { _ in
-            self.presenter.posts = self.presenter.posts?.sorted(by: { $0.likesCount > $1.likesCount })
-            self.tableView.reloadData()
+            self.presenter.sortPosts(by: .ratingSort)
         }))
         alert.addAction(UIAlertAction(title: "Cancel",
                                       style: .cancel,
                                       handler: nil))
-        return alert
+        
+        present(alert, animated: true, completion: nil)
     }
-    
-    private func configureErrorAlert(_ error: String?) -> UIAlertController {
-        let alert = UIAlertController(title: error ?? "",
-                                      message: nil,
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Okay",
-                                      style: .cancel,
-                                      handler: nil))
-        return alert
-    }
-    
-    func updateIsExpended(withID id: Int) {
-        guard let postIndex = presenter.posts?.firstIndex(where: { post in post.postID == id }) else { return }
-        presenter.posts?[postIndex].isExpanded.toggle()
-    }
-
 }
 
 //MARK: - UITableViewDataSource -
@@ -113,14 +105,9 @@ extension PostListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = PostXibTableViewCell.dequeueCell(in: tableView, indexPath: indexPath)
-        cell.updateIsExpended = { [weak self] postID in
-            self?.updateIsExpended(withID: postID)
+        cell.configure(post: presenter.item(at: indexPath.item)) { [weak self] postID in
+            self?.presenter.toglePostIsExpanded(for: postID)
         }
-        cell.readMoreTapped = { [weak self] in
-            self?.tableView.beginUpdates()
-            self?.tableView.endUpdates()
-        }
-        cell.configure(post: presenter.item(at: indexPath.item))
         return cell
     }
 }
@@ -128,9 +115,9 @@ extension PostListViewController: UITableViewDataSource {
 //MARK: - UITableViewDelegate -
 extension PostListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        presenter.tapPostDetail(postID: presenter.item(at: indexPath.item)?.postID ?? 0)
+        presenter.showPostDetail(with: presenter.item(at: indexPath.item)?.postID ?? 0)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
-extension PostListViewController: PostListViewProtocol { }
+extension PostListViewController: PostListViewProtocol {}

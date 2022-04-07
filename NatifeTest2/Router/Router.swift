@@ -14,7 +14,7 @@ protocol RouterMain {
 
 protocol RouterProtocol: RouterMain {
     func showPostListViewController()
-    func showPostDetailViewController(postID: Int)
+    func showPostDetailViewController(with postID: Int)
     func popToRoot()
 }
 
@@ -36,7 +36,7 @@ class Router: RouterProtocol {
         navigationController?.viewControllers = [assemblyBuilder.createPostListModule(router: self)]
     }
     
-    func showPostDetailViewController(postID: Int) {
+    func showPostDetailViewController(with postID: Int) {
         navigationController?.pushViewController( assemblyBuilder.createPostDetailModule(router: self,
                                                                                          postID: postID),
                                                  animated: true)

@@ -15,26 +15,21 @@ class PostXibTableViewCell: BaseTableViewCell {
     @IBOutlet private weak var readMoreButton: UIButton!
     
     //MARK: - Variables -
-    var updateIsExpended: ((_ postID: Int) -> Void)?
-    var readMoreTapped: (() -> Void)?
+    private var readMoreTapped: ((_ postID: Int) -> Void)?
     private var post: PreviewPostModel?
     
     //MARK: - Internal -
-    func configure(post: PreviewPostModel?) {
+    func configure(post: PreviewPostModel?, readMoreTapped: ((_ postID: Int) -> Void)?) {
         self.post = post
+        self.readMoreTapped = readMoreTapped
         configureTextFields()
         configureExpandButton()
     }
     
     //MARK: - Private -
     @IBAction private func readMoreButtonPressed(_ sender: Any) {
-        guard var post = self.post else { return }
-        post.isExpanded ? shortenText() : expandedText()
-        updateLayout()
-        
-        updateIsExpended?(post.postID)
-        post.isExpanded.toggle()
-        self.post = post
+        guard let post = self.post else { return }
+        readMoreTapped?(post.postID)
     }
    
     private func configureTextFields() {
@@ -44,24 +39,20 @@ class PostXibTableViewCell: BaseTableViewCell {
         likesCount.text = String(post?.likesCount ?? 0)
     }
     
-    private func expandedText() {
+    private func showFullPreviewText() {
         previewTextLabel.numberOfLines = 0
         readMoreButton.setTitle("Свернуть текст", for: .normal)
     }
     
-    private func shortenText() {
+    private func showShortenPreviewText() {
         previewTextLabel.numberOfLines = 2
         readMoreButton.setTitle("Читать далее...", for: .normal)
     }
     
     private func configureExpandButton() {
         guard let post = self.post else { return }
-        post.isExpanded ? expandedText() : shortenText()
+        post.isExpanded ? showFullPreviewText() : showShortenPreviewText()
         readMoreButton.isHidden = previewTextLabel.numberLinesOfText <= 2
-    }
-    
-    private func updateLayout() {
-        readMoreTapped?()
     }
 }
 

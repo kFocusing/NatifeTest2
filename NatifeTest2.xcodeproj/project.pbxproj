@@ -30,6 +30,7 @@
 		C7ACEA2527FB7DC000EEC87F /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7ACEA2427FB7DC000EEC87F /* UILabelExtension.swift */; };
 		C7ACEA2727FB7DFB00EEC87F /* DetailPostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7ACEA2627FB7DFB00EEC87F /* DetailPostModel.swift */; };
 		C7ACEA2927FC477500EEC87F /* PostsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7ACEA2827FC477500EEC87F /* PostsService.swift */; };
+		C7D694FA27FEFBFA00C22CB7 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D694F927FEFBF900C22CB7 /* UIColorExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		C7ACEA2427FB7DC000EEC87F /* UILabelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtension.swift; sourceTree = "<group>"; };
 		C7ACEA2627FB7DFB00EEC87F /* DetailPostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPostModel.swift; sourceTree = "<group>"; };
 		C7ACEA2827FC477500EEC87F /* PostsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsService.swift; sourceTree = "<group>"; };
+		C7D694F927FEFBF900C22CB7 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -215,6 +217,7 @@
 				C786EB5D27F79905008D36BF /* IntExtension.swift */,
 				C786EB5B27F798F6008D36BF /* UIViewExtension.swift */,
 				C7ACEA2427FB7DC000EEC87F /* UILabelExtension.swift */,
+				C7D694F927FEFBF900C22CB7 /* UIColorExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -333,6 +336,7 @@
 				C76E67B927FD0C880023CE9D /* BaseViewController.swift in Sources */,
 				C786EB4A27F79896008D36BF /* Router.swift in Sources */,
 				C786EB2A27F73577008D36BF /* PostXibTableViewCell.swift in Sources */,
+				C7D694FA27FEFBFA00C22CB7 /* UIColorExtension.swift in Sources */,
 				C7ACEA2727FB7DFB00EEC87F /* DetailPostModel.swift in Sources */,
 				C786EB2627F73577008D36BF /* AppDelegate.swift in Sources */,
 				C786EB5827F798E6008D36BF /* PostDetailPresenter.swift in Sources */,

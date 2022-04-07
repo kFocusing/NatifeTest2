@@ -67,7 +67,7 @@ class PostDetailViewController: BaseViewController {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.image = .none
-        image.tintColor = UIColor(red: 183/255, green: 4/255, blue: 0/255, alpha: 1)
+        image.tintColor = .burgundyRed
         scrollView.addSubview(image)
         return image
     }()
@@ -84,19 +84,16 @@ class PostDetailViewController: BaseViewController {
     
     //MARK: - Internal -
     func update(with detailsModel: DetailPostModel) {
-        DispatchQueue.main.async {
-            self.configureTitleLabel(post: detailsModel)
-            self.configureDetailTextLabel(post: detailsModel)
-            self.configureLikesCountLabel(post: detailsModel)
-            self.configurePublishDateLabel(post: detailsModel)
-            self.configureImageStackView(post: detailsModel)
-            self.makeLikeImageVisible()
-            self.hideActivityIndicator()
+        DispatchQueue.main.async { [weak self] in
+            self?.configureDetailView(with: detailsModel)
         }
     }
     
     func displayError(_ error: String?) {
-        present(configureErrorAlert(error), animated: true, completion: nil)
+        guard let error = error else {
+            return configureErrorAlert(with: "Error")
+        }
+        configureErrorAlert(with: error)
     }
     
     //MARK: - Private -
@@ -108,6 +105,14 @@ class PostDetailViewController: BaseViewController {
         layoutLikeImage()
         layoutLikesCountLabel()
         layoutPublishDateLabel()
+    }
+    
+    private func configureDetailView(with post: DetailPostModel) {
+        titleLabel.text = post.title
+        detailTextLabel.text = post.text
+        likeImage.image = UIImage(systemName: "heart")
+        likesCountLabel.text = String(post.likesCount)
+        publishDateLabel.text = post.timeshamp.timeshampToDateString()
     }
     
     private func layoutScrollView() {
@@ -171,29 +176,13 @@ class PostDetailViewController: BaseViewController {
         ])
     }
     
-    private func configureTitleLabel(post: DetailPostModel) {
-        titleLabel.text = post.title
-    }
-    
-    private func configureDetailTextLabel(post: DetailPostModel) {
-        detailTextLabel.text = post.text
-    }
-    
-    private func configureLikesCountLabel(post: DetailPostModel) {
-        likesCountLabel.text = String(post.likesCount)
-    }
-    
-    private func configurePublishDateLabel(post: DetailPostModel) {
-        publishDateLabel.text = post.timeshamp.timeshampToDateString()
-    }
-    
     private func configureImageStackView(post: DetailPostModel) {
         for imageURL in post.images {
-            DispatchQueue.global().async {
+            DispatchQueue.global().async { [weak self] in
                 guard let url = URL(string: imageURL),
                       let data = try? Data(contentsOf: url),
                       let image = UIImage(data: data) else { return }
-                self.setImageIntoStackView(image)
+                self?.setImageIntoStackView(image)
             }
         }
     }
@@ -210,20 +199,6 @@ class PostDetailViewController: BaseViewController {
             imageView.heightAnchor.constraint(equalToConstant: imagesStackView.frame.width)
         ])
         imagesStackView.addArrangedSubview(imageView)
-    }
-    
-    private func makeLikeImageVisible() {
-        likeImage.image = UIImage(systemName: "heart")
-    }
-    
-    private func configureErrorAlert(_ error: String?) -> UIAlertController {
-        let alert = UIAlertController(title: error ?? "",
-                                      message: nil,
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Okay",
-                                      style: .cancel,
-                                      handler: nil))
-        return alert
     }
 }
 

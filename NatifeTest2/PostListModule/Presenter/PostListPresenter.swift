@@ -10,6 +10,8 @@ import UIKit
 protocol PostListViewProtocol: AnyObject {
     func update()
     func displayError(_ error: String?)
+    func showActivityIndicator()
+    func hideActivityIndicator()
 }
 
 protocol PostListPresenterProtocol: AnyObject {
@@ -19,8 +21,9 @@ protocol PostListPresenterProtocol: AnyObject {
     func item(at index: Int) -> PreviewPostModel?
     func itemsCount() -> Int
     func viewDidLoad()
-    var posts: [PreviewPostModel]? { get set }
-    func tapPostDetail(postID: Int)
+    func showPostDetail(with postID: Int)
+    func toglePostIsExpanded(for id: Int)
+    func sortPosts(by criterion: SortEnum)
 }
 
 class PostListPresenter: PostListPresenterProtocol {
@@ -29,7 +32,7 @@ class PostListPresenter: PostListPresenterProtocol {
     weak var view: PostListViewProtocol?
     var router: RouterProtocol?
     let postsService: PostsServiceProtocol!
-    var posts: [PreviewPostModel]?
+    private var posts: [PreviewPostModel]?
     
     //MARK: - Life Cycle -
     required init(view: PostListViewProtocol,
@@ -54,20 +57,55 @@ class PostListPresenter: PostListPresenterProtocol {
         return posts?.count ?? 0
     }
     
-    func tapPostDetail(postID: Int) {
-        router?.showPostDetailViewController(postID: postID)
+    func showPostDetail(with postID: Int) {
+        router?.showPostDetailViewController(with: postID)
+    }
+    
+    func toglePostIsExpanded(for id: Int) {
+        guard let postIndex = posts?.firstIndex(where: { post in post.postID == id }) else { return }
+        posts?[postIndex].isExpanded.toggle()
+        view?.update()
+    }
+    
+    func sortPosts(by criterion: SortEnum) {
+        switch criterion {
+        case .dateSort:
+            posts = posts?.sorted(by: { $0.timeshamp > $1.timeshamp })
+        case .ratingSort:
+            posts = posts?.sorted(by: { $0.likesCount > $1.likesCount })
+        case .defaultSort:
+            posts = posts?.sorted(by: { $0.postID < $1.postID })
+        }
+        view?.update()
     }
     
     //MARK: - Private -
     private func getPreviewPosts() {
-        postsService.fetchPostList(route: "main.json") { [weak self] result in
-            switch result {
-            case .success(let posts):
-                self?.posts = posts.posts
-                self?.view?.update()
-            case .failure(let error):
-                self?.view?.displayError(error.message)
+        showLoader()
+        postsService.fetchPostLists(route: "main.json") {  [weak self] response, error in
+            if let response = response {
+                DispatchQueue.main.async {
+                    self?.posts = response.posts
+                    self?.view?.update()
+                    self?.hideLoader()
+                }
+            } else {
+                self?.view?.displayError(error?.message)
             }
         }
     }
+    
+    private func showLoader() {
+        view?.showActivityIndicator()
+    }
+    
+    private func hideLoader() {
+        view?.hideActivityIndicator()
+    }
+}
+
+enum SortEnum {
+    case defaultSort
+    case ratingSort
+    case dateSort
 }

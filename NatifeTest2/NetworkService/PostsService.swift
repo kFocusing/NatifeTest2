@@ -8,20 +8,15 @@
 import Foundation
 
 protocol PostsServiceProtocol {
-//    func fetchPost<T: Codable>(route: String,
-//                               expacting: T.Type,
-//                               completion: @escaping (Result<T, Error>) -> Void)
-    
-    
-    func fetchPost(route: String, completion: @escaping (Result<DetailPostModelRequest, CustomError>) -> Void)
-    func fetchPostList(route: String, completion: @escaping (Result<PreviewPostListModel, CustomError>) -> Void)
+    func fetchPost(route: String, completion: @escaping (DetailPostModelRequest?, CustomError?) -> ())
+    func fetchPostLists(route: String, completion: @escaping (PreviewPostListModel?, CustomError?) -> ())
 }
 
 class BasePostsService {
-    func parseJson<T: Codable>(_ data: Data, expacting: T.Type) -> T? {
+    func parseJson<T: Codable>(_ data: Data, expecting: T.Type) -> T? {
         let decoder = JSONDecoder()
         do {
-            let decodateData = try decoder.decode(expacting, from: data)
+            let decodateData = try decoder.decode(expecting, from: data)
             return decodateData
         } catch {
             return nil
@@ -33,32 +28,27 @@ class BasePostsService {
 class PostsService: BasePostsService, PostsServiceProtocol {
     
     //MARK: - Internal -
-    func fetchPost(route: String,
-                   completion: @escaping (Result<DetailPostModelRequest, CustomError>) -> Void) {
+    func fetchPost(route: String, completion: @escaping (DetailPostModelRequest?, CustomError?) -> ()) {
         NetworkService.shared.request(route: route) { result in
             switch result {
             case .success(let data):
-                if let postResponse = self.parseJson(data, expacting: DetailPostModelRequest.self) {
-                    completion(.success(postResponse))
-                }
+                let postResponse = self.parseJson(data, expecting: DetailPostModelRequest.self)
+                completion(postResponse, nil)
             case .failure(let error):
-                completion(.failure(error))
+                completion(nil, error)
             }
         }
     }
     
-    func fetchPostList(route: String,
-                   completion: @escaping (Result<PreviewPostListModel, CustomError>) -> Void) {
+    func fetchPostLists(route: String, completion: @escaping (PreviewPostListModel?, CustomError?) -> ()) {
         NetworkService.shared.request(route: route) { result in
             switch result {
             case .success(let data):
-                if let postResponse = self.parseJson(data, expacting: PreviewPostListModel.self) {
-                    completion(.success(postResponse))
-                }
+                let postListResponse = self.parseJson(data, expecting: PreviewPostListModel.self)
+                completion(postListResponse, nil)
             case .failure(let error):
-                completion(.failure(error))
+                completion(nil, error)
             }
         }
     }
-
 }

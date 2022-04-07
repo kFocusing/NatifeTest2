@@ -42,21 +42,33 @@ class PostDetailPresenter: PostDetailViewPresenterProtocol {
         self.router = router
     }
     
-    //MARK: Internal
+    //MARK: - Internal -
     func viewDidLoad() {
-        view?.showActivityIndicator()
         getDetailPost(postID: postID)
     }
     
+    //MARK: - Private - 
     private func getDetailPost(postID: Int) {
-        postsService.fetchPost(route: "posts/\(postID).json") { [weak self] result in
-            switch result {
-            case .success(let post):
-                self?.detailPost = post.post
-                self?.view?.update(with: post.post)
-            case .failure(let error):
-                self?.view?.displayError(error.message)
+        showLoader()
+        postsService.fetchPost(route: "posts/\(postID).json") { [weak self] post, error in
+            if let post = post {
+                DispatchQueue.main.async {
+                    self?.detailPost = post.post
+                    self?.view?.update(with: post.post)
+                    self?.hideLoader()
+                }
+            } else {
+                self?.view?.displayError(error?.message)
             }
         }
     }
+    
+    private func showLoader() {
+        view?.showActivityIndicator()
+    }
+    
+    private func hideLoader() {
+        view?.hideActivityIndicator()
+    }
 }
+
