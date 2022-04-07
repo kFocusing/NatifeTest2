@@ -15,24 +15,21 @@ class PostXibTableViewCell: BaseTableViewCell {
     @IBOutlet private weak var readMoreButton: UIButton!
     
     //MARK: - Variables -
-    private var readMoreTapped: ((_ postID: Int) -> Void)?
-    private var post: PreviewPostModel?
+    private var readMoreTapped: (() -> Void)?
     
     //MARK: - Internal -
-    func configure(post: PreviewPostModel?, readMoreTapped: ((_ postID: Int) -> Void)?) {
-        self.post = post
+    func configure(post: PreviewPostModel?, readMoreTapped: (() -> Void)?) {
         self.readMoreTapped = readMoreTapped
-        configureTextFields()
-        configureExpandButton()
+        configureTextFields(post: post)
+        configureExpandButton(post: post)
     }
     
     //MARK: - Private -
     @IBAction private func readMoreButtonPressed(_ sender: Any) {
-        guard let post = self.post else { return }
-        readMoreTapped?(post.postID)
+        readMoreTapped?()
     }
    
-    private func configureTextFields() {
+    private func configureTextFields(post: PreviewPostModel?) {
         titleLabel.text = post?.title ?? ""
         previewTextLabel.text = post?.previewText ?? ""
         publishDateLabel.text = post?.timeshamp.timeshampToDateString() ?? ""
@@ -49,10 +46,9 @@ class PostXibTableViewCell: BaseTableViewCell {
         readMoreButton.setTitle("Читать далее...", for: .normal)
     }
     
-    private func configureExpandButton() {
-        guard let post = self.post else { return }
+    private func configureExpandButton(post: PreviewPostModel?) {
+        guard let post = post else { return }
         post.isExpanded ? showFullPreviewText() : showShortenPreviewText()
-        readMoreButton.isHidden = previewTextLabel.numberLinesOfText <= 2
     }
 }
 

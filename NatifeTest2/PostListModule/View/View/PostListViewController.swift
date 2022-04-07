@@ -32,20 +32,6 @@ class PostListViewController: BaseViewController {
         presenter.viewDidLoad()
     }
     
-    // MARK: - Internal -
-    func update() {
-        DispatchQueue.main.async { [weak self] in
-            self?.tableView.reloadData()
-        }
-    }
-    
-    func displayError(_ error: String?) {
-        guard let error = error else {
-            return configureErrorAlert(with: "Unknown Error")
-        }
-        configureErrorAlert(with: error)
-    }
-    
     //MARK: - Private -
     private func layoutTableView() {
         NSLayoutConstraint.activate([
@@ -105,8 +91,9 @@ extension PostListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = PostXibTableViewCell.dequeueCell(in: tableView, indexPath: indexPath)
-        cell.configure(post: presenter.item(at: indexPath.item)) { [weak self] postID in
-            self?.presenter.toglePostIsExpanded(for: postID)
+        let item = presenter.item(at: indexPath.item)
+        cell.configure(post: item) { [weak self] in
+            self?.presenter.toglePostIsExpanded(for: item?.postID ?? 0)
         }
         return cell
     }
@@ -120,4 +107,16 @@ extension PostListViewController: UITableViewDelegate {
     }
 }
 
-extension PostListViewController: PostListViewProtocol {}
+extension PostListViewController: PostListViewProtocol {
+    
+    // MARK: - Internal -
+    func update() {
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+        }
+    }
+    
+    func displayError(_ error: String) {
+        configureErrorAlert(with: error)
+    }
+}

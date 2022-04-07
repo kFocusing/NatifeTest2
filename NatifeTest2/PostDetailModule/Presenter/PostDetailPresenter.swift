@@ -9,7 +9,7 @@ import Foundation
 
 protocol PostDetailViewProtocol: AnyObject {
     func update(with detailsModel: DetailPostModel)
-    func displayError(_ error: String?)
+    func displayError(_ error: String)
     func showActivityIndicator()
     func hideActivityIndicator()
 }
@@ -49,26 +49,22 @@ class PostDetailPresenter: PostDetailViewPresenterProtocol {
     
     //MARK: - Private - 
     private func getDetailPost(postID: Int) {
-        showLoader()
+        view?.showActivityIndicator()
         postsService.fetchPost(route: "posts/\(postID).json") { [weak self] post, error in
             if let post = post {
                 DispatchQueue.main.async { [weak self] in
                     self?.detailPost = post.post
                     self?.view?.update(with: post.post)
-                    self?.hideLoader()
+                    self?.view?.hideActivityIndicator()
                 }
             } else {
-                self?.view?.displayError(error?.message)
+                guard let error = error?.message else {
+                    self?.view?.displayError("Unknown Error")
+                    return
+                }
+                self?.view?.displayError(error)
             }
         }
-    }
-    
-    private func showLoader() {
-        view?.showActivityIndicator()
-    }
-    
-    private func hideLoader() {
-        view?.hideActivityIndicator()
     }
 }
 

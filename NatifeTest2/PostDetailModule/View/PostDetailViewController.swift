@@ -82,20 +82,6 @@ class PostDetailViewController: BaseViewController {
         presenter.viewDidLoad()
     }
     
-    //MARK: - Internal -
-    func update(with detailsModel: DetailPostModel) {
-        DispatchQueue.main.async { [weak self] in
-            self?.configureDetailView(with: detailsModel)
-        }
-    }
-    
-    func displayError(_ error: String?) {
-        guard let error = error else {
-            return configureErrorAlert(with: "Unknown Error")
-        }
-        configureErrorAlert(with: error)
-    }
-    
     //MARK: - Private -
     private func layoutUIElements() {
         layoutScrollView()
@@ -183,25 +169,32 @@ class PostDetailViewController: BaseViewController {
                 guard let url = URL(string: imageURL),
                       let data = try? Data(contentsOf: url),
                       let image = UIImage(data: data) else { return }
-                self?.setImageIntoStackView(image)
+                guard let imageView = self?.getImageView(with: image) else { return }
+                self?.imagesStackView.addArrangedSubview(imageView)
             }
         }
     }
     
-    private func setImageIntoStackView(_ image: UIImage) {
-        DispatchQueue.main.async { [weak self] in
-            let imageView = UIImageView(image: image)
-            self?.layoutImageIntoImagesStackView(imageView: imageView)
-        }
-    }
-    
-    private func layoutImageIntoImagesStackView(imageView: UIImageView) {
+    private func getImageView(with image: UIImage) -> UIImageView {
+        let imageView = UIImageView(image: image)
         NSLayoutConstraint.activate([
             imageView.heightAnchor.constraint(equalToConstant: imagesStackView.frame.width)
         ])
-        imagesStackView.addArrangedSubview(imageView)
+        return imageView
     }
 }
 
-extension PostDetailViewController: PostDetailViewProtocol { }
+extension PostDetailViewController: PostDetailViewProtocol {
+    
+    //MARK: - Internal -
+    func update(with detailsModel: DetailPostModel) {
+        DispatchQueue.main.async { [weak self] in
+            self?.configureDetailView(with: detailsModel)
+        }
+    }
+    
+    func displayError(_ error: String) {
+        configureErrorAlert(with: error)
+    }
+}
 

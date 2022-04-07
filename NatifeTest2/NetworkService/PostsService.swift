@@ -12,20 +12,7 @@ protocol PostsServiceProtocol {
     func fetchPostLists(route: String, completion: @escaping (PreviewPostListModel?, CustomError?) -> ())
 }
 
-class BasePostsService {
-    func parseJson<T: Codable>(_ data: Data, expecting: T.Type) -> T? {
-        let decoder = JSONDecoder()
-        do {
-            let decodateData = try decoder.decode(expecting, from: data)
-            return decodateData
-        } catch {
-            return nil
-        }
-    }
-}
-
-
-class PostsService: BasePostsService, PostsServiceProtocol {
+class PostsService: BaseService, PostsServiceProtocol {
     
     //MARK: - Internal -
     func fetchPost(route: String, completion: @escaping (DetailPostModelRequest?, CustomError?) -> ()) {

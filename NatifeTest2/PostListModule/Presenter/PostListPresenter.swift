@@ -9,7 +9,7 @@ import UIKit
 
 protocol PostListViewProtocol: AnyObject {
     func update()
-    func displayError(_ error: String?)
+    func displayError(_ error: String)
     func showActivityIndicator()
     func hideActivityIndicator()
 }
@@ -23,7 +23,7 @@ protocol PostListPresenterProtocol: AnyObject {
     func viewDidLoad()
     func showPostDetail(with postID: Int)
     func toglePostIsExpanded(for id: Int)
-    func sortPosts(by criterion: SortEnum)
+    func sortPosts(by criterion: SortType)
 }
 
 class PostListPresenter: PostListPresenterProtocol {
@@ -67,7 +67,7 @@ class PostListPresenter: PostListPresenterProtocol {
         view?.update()
     }
     
-    func sortPosts(by criterion: SortEnum) {
+    func sortPosts(by criterion: SortType) {
         switch criterion {
         case .dateSort:
             posts = posts?.sorted(by: { $0.timeshamp > $1.timeshamp })
@@ -81,30 +81,26 @@ class PostListPresenter: PostListPresenterProtocol {
     
     //MARK: - Private -
     private func getPreviewPosts() {
-        showLoader()
+        view?.showActivityIndicator()
         postsService.fetchPostLists(route: "main.json") {  [weak self] response, error in
             if let response = response {
                 DispatchQueue.main.async { [weak self] in
                     self?.posts = response.posts
                     self?.view?.update()
-                    self?.hideLoader()
+                    self?.view?.hideActivityIndicator()
                 }
             } else {
-                self?.view?.displayError(error?.message)
+                guard let error = error?.message else {
+                    self?.view?.displayError("Unknown Error")
+                    return
+                }
+                self?.view?.displayError(error)
             }
         }
     }
-    
-    private func showLoader() {
-        view?.showActivityIndicator()
-    }
-    
-    private func hideLoader() {
-        view?.hideActivityIndicator()
-    }
 }
 
-enum SortEnum {
+enum SortType {
     case defaultSort
     case ratingSort
     case dateSort
