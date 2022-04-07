@@ -52,7 +52,7 @@ class PostDetailPresenter: PostDetailViewPresenterProtocol {
         showLoader()
         postsService.fetchPost(route: "posts/\(postID).json") { [weak self] post, error in
             if let post = post {
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { [weak self] in
                     self?.detailPost = post.post
                     self?.view?.update(with: post.post)
                     self?.hideLoader()

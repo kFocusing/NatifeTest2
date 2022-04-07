@@ -113,6 +113,7 @@ class PostDetailViewController: BaseViewController {
         likeImage.image = UIImage(systemName: "heart")
         likesCountLabel.text = String(post.likesCount)
         publishDateLabel.text = post.timeshamp.timeshampToDateString()
+        configureImageStackView(post: post)
     }
     
     private func layoutScrollView() {
@@ -188,9 +189,9 @@ class PostDetailViewController: BaseViewController {
     }
     
     private func setImageIntoStackView(_ image: UIImage) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
             let imageView = UIImageView(image: image)
-            self.layoutImageIntoImagesStackView(imageView: imageView)
+            self?.layoutImageIntoImagesStackView(imageView: imageView)
         }
     }
     

@@ -84,7 +84,7 @@ class PostListPresenter: PostListPresenterProtocol {
         showLoader()
         postsService.fetchPostLists(route: "main.json") {  [weak self] response, error in
             if let response = response {
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { [weak self] in
                     self?.posts = response.posts
                     self?.view?.update()
                     self?.hideLoader()
