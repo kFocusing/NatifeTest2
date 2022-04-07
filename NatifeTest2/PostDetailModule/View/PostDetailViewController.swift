@@ -91,7 +91,7 @@ class PostDetailViewController: BaseViewController {
     
     func displayError(_ error: String?) {
         guard let error = error else {
-            return configureErrorAlert(with: "Error")
+            return configureErrorAlert(with: "Unknown Error")
         }
         configureErrorAlert(with: error)
     }
