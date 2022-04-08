@@ -112,10 +112,11 @@ class PostDetailViewController: BaseViewController {
     }
     
     private func layoutTitleLabel() {
+        let horizontalInset: CGFloat = 30
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 10),
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30)
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: horizontalInset),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -horizontalInset)
         ])
     }
     
@@ -184,9 +185,9 @@ class PostDetailViewController: BaseViewController {
     }
 }
 
+// MARK: - PostDetailViewProtocol -
 extension PostDetailViewController: PostDetailViewProtocol {
     
-    //MARK: - Internal -
     func update(with detailsModel: DetailPostModel) {
         DispatchQueue.main.async { [weak self] in
             self?.configureDetailView(with: detailsModel)

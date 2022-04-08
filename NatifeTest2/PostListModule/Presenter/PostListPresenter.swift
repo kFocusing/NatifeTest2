@@ -22,7 +22,7 @@ protocol PostListPresenterProtocol: AnyObject {
     func itemsCount() -> Int
     func viewDidLoad()
     func showPostDetail(with postID: Int)
-    func toglePostIsExpanded(for id: Int)
+    func toglePostIsExpanded(for index: Int)
     func sortPosts(by criterion: SortType)
 }
 
@@ -61,8 +61,10 @@ class PostListPresenter: PostListPresenterProtocol {
         router?.showPostDetailViewController(with: postID)
     }
     
-    func toglePostIsExpanded(for id: Int) {
-        guard let postIndex = posts?.firstIndex(where: { post in post.postID == id }) else { return }
+    func toglePostIsExpanded(for index: Int) {
+        guard let postIndex = posts?.firstIndex(where: {
+            post in post.postID == item(at: index)?.postID
+        }) else { return }
         posts?[postIndex].isExpanded.toggle()
         view?.update()
     }

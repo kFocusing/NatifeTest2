@@ -15,20 +15,20 @@ class PostXibTableViewCell: BaseTableViewCell {
     @IBOutlet private weak var readMoreButton: UIButton!
     
     //MARK: - Variables -
-    private var readMoreTapped: (() -> Void)?
+    private var readMoreTapped: EmptyBlock?
     
     //MARK: - Internal -
-    func configure(post: PreviewPostModel?, readMoreTapped: (() -> Void)?) {
+    func configure(post: PreviewPostModel?, readMoreTapped: (EmptyBlock)?) {
         self.readMoreTapped = readMoreTapped
         configureTextFields(post: post)
-        configureExpandButton(post: post)
+        configure(post?.isExpanded ?? false)
     }
     
     //MARK: - Private -
     @IBAction private func readMoreButtonPressed(_ sender: Any) {
         readMoreTapped?()
     }
-   
+    
     private func configureTextFields(post: PreviewPostModel?) {
         titleLabel.text = post?.title ?? ""
         previewTextLabel.text = post?.previewText ?? ""
@@ -36,19 +36,24 @@ class PostXibTableViewCell: BaseTableViewCell {
         likesCount.text = String(post?.likesCount ?? 0)
     }
     
-    private func showFullPreviewText() {
-        previewTextLabel.numberOfLines = 0
-        readMoreButton.setTitle("Свернуть текст", for: .normal)
+    private func configure(_ boolean: Bool) {
+        boolean ? setup(for: .fullPreview) : setup(for: .shortPreview)
     }
     
-    private func showShortenPreviewText() {
-        previewTextLabel.numberOfLines = 2
-        readMoreButton.setTitle("Читать далее...", for: .normal)
-    }
-    
-    private func configureExpandButton(post: PreviewPostModel?) {
-        guard let post = post else { return }
-        post.isExpanded ? showFullPreviewText() : showShortenPreviewText()
+    private func setup(for displayingMode: PreviewTextDisplayingMode) {
+        switch displayingMode {
+        case .shortPreview:
+            previewTextLabel.numberOfLines = 2
+            readMoreButton.setTitle("Читать далее...", for: .normal)
+        case .fullPreview:
+            previewTextLabel.numberOfLines = 0
+            readMoreButton.setTitle("Свернуть текст", for: .normal)
+        }
     }
 }
 
+
+enum PreviewTextDisplayingMode {
+    case shortPreview
+    case fullPreview
+}

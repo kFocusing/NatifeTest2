@@ -51,11 +51,11 @@ class PostDetailPresenter: PostDetailViewPresenterProtocol {
     private func getDetailPost(postID: Int) {
         view?.showActivityIndicator()
         postsService.fetchPost(route: "posts/\(postID).json") { [weak self] post, error in
+            self?.view?.hideActivityIndicator()
             if let post = post {
                 DispatchQueue.main.async { [weak self] in
                     self?.detailPost = post.post
                     self?.view?.update(with: post.post)
-                    self?.view?.hideActivityIndicator()
                 }
             } else {
                 guard let error = error?.message else {

@@ -7,10 +7,10 @@
 
 import Foundation
 
-typealias completion = (_ result: RequestResult) -> Void
+typealias NetworkCompletion = (_ result: RequestResult) -> Void
 
 protocol NetworkServiceProtocol {
-    func request(route: String, completion: @escaping completion)
+    func request(route: String, completion: @escaping NetworkCompletion)
 }
 
 enum RequestResult {
@@ -27,7 +27,7 @@ class NetworkService: NetworkServiceProtocol {
     private init() {}
     
     func request(route: String,
-                 completion: @escaping completion) {
+                 completion: @escaping NetworkCompletion) {
         
         let fullURLString = baseURL + route
         guard let url = URL(string: fullURLString) else {

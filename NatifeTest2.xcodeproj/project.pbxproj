@@ -31,6 +31,7 @@
 		C7ACEA2727FB7DFB00EEC87F /* DetailPostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7ACEA2627FB7DFB00EEC87F /* DetailPostModel.swift */; };
 		C7ACEA2927FC477500EEC87F /* PostsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7ACEA2827FC477500EEC87F /* PostsService.swift */; };
 		C7D694FA27FEFBFA00C22CB7 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D694F927FEFBF900C22CB7 /* UIColorExtension.swift */; };
+		C7E0BE2F2800269C003440CE /* Сonstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E0BE2E2800269C003440CE /* Сonstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		C7ACEA2627FB7DFB00EEC87F /* DetailPostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPostModel.swift; sourceTree = "<group>"; };
 		C7ACEA2827FC477500EEC87F /* PostsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsService.swift; sourceTree = "<group>"; };
 		C7D694F927FEFBF900C22CB7 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		C7E0BE2E2800269C003440CE /* Сonstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Сonstants.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,6 +206,7 @@
 		C786EB6E27F9E911008D36BF /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				C7E0BE2E2800269C003440CE /* Сonstants.swift */,
 				C786EB2E27F73579008D36BF /* Assets.xcassets */,
 				C786EB3027F73579008D36BF /* LaunchScreen.storyboard */,
 				C786EB3327F73579008D36BF /* Info.plist */,
@@ -347,6 +350,7 @@
 				C786EB6027F79911008D36BF /* CellRegister&DequeueReusableExtension.swift in Sources */,
 				C786EB5C27F798F6008D36BF /* UIViewExtension.swift in Sources */,
 				C786EB4E27F798AD008D36BF /* PostListViewController.swift in Sources */,
+				C7E0BE2F2800269C003440CE /* Сonstants.swift in Sources */,
 				C786EB5A27F798EF008D36BF /* NetworkService.swift in Sources */,
 				C786EB2827F73577008D36BF /* SceneDelegate.swift in Sources */,
 			);

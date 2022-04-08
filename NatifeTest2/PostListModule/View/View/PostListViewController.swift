@@ -93,7 +93,7 @@ extension PostListViewController: UITableViewDataSource {
         let cell = PostXibTableViewCell.dequeueCell(in: tableView, indexPath: indexPath)
         let item = presenter.item(at: indexPath.item)
         cell.configure(post: item) { [weak self] in
-            self?.presenter.toglePostIsExpanded(for: item?.postID ?? 0)
+            self?.presenter.toglePostIsExpanded(for: indexPath.item)
         }
         return cell
     }
@@ -107,9 +107,9 @@ extension PostListViewController: UITableViewDelegate {
     }
 }
 
+// MARK: - PostListViewProtocol -
 extension PostListViewController: PostListViewProtocol {
     
-    // MARK: - Internal -
     func update() {
         DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()
