@@ -171,8 +171,8 @@ class PostDetailViewController: BaseViewController {
                       let data = try? Data(contentsOf: url),
                       let image = UIImage(data: data) else { return }
                 DispatchQueue.main.async { [weak self] in
-                guard let imageView = self?.getImageView(with: image) else { return }
-                self?.imagesStackView.addArrangedSubview(imageView)
+                    guard let imageView = self?.getImageView(with: image) else { return }
+                    self?.imagesStackView.addArrangedSubview(imageView)
                 }
             }
         }
