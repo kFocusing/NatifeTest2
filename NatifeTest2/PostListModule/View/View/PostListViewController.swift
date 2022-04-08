@@ -91,7 +91,7 @@ extension PostListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = PostXibTableViewCell.dequeueCell(in: tableView, indexPath: indexPath)
-        let item = presenter.item(at: indexPath.item)
+        let item = presenter.item(at: indexPath.row)
         cell.configure(post: item) { [weak self] in
             self?.presenter.toglePostIsExpanded(for: indexPath.row)
         }
