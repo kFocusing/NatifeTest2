@@ -32,6 +32,7 @@
 		C7ACEA2927FC477500EEC87F /* PostsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7ACEA2827FC477500EEC87F /* PostsService.swift */; };
 		C7D694FA27FEFBFA00C22CB7 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D694F927FEFBF900C22CB7 /* UIColorExtension.swift */; };
 		C7E0BE2F2800269C003440CE /* Сonstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E0BE2E2800269C003440CE /* Сonstants.swift */; };
+		C7E0BE3128004975003440CE /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E0BE3028004975003440CE /* UILabelExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,7 @@
 		C7ACEA2827FC477500EEC87F /* PostsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsService.swift; sourceTree = "<group>"; };
 		C7D694F927FEFBF900C22CB7 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		C7E0BE2E2800269C003440CE /* Сonstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Сonstants.swift"; sourceTree = "<group>"; };
+		C7E0BE3028004975003440CE /* UILabelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +223,7 @@
 				C786EB5D27F79905008D36BF /* IntExtension.swift */,
 				C786EB5B27F798F6008D36BF /* UIViewExtension.swift */,
 				C7D694F927FEFBF900C22CB7 /* UIColorExtension.swift */,
+				C7E0BE3028004975003440CE /* UILabelExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 				C786EB4E27F798AD008D36BF /* PostListViewController.swift in Sources */,
 				C7E0BE2F2800269C003440CE /* Сonstants.swift in Sources */,
 				C786EB5A27F798EF008D36BF /* NetworkService.swift in Sources */,
+				C7E0BE3128004975003440CE /* UILabelExtension.swift in Sources */,
 				C786EB2827F73577008D36BF /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

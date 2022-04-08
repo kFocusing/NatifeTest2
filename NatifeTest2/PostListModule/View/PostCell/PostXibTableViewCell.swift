@@ -38,6 +38,7 @@ class PostXibTableViewCell: BaseTableViewCell {
     
     private func configure(_ isExpanded: Bool) {
         isExpanded ? setup(for: .fullPreview) : setup(for: .shortPreview)
+        readMoreButton.isHidden = previewTextLabel.countLinesOfLabel <= 2
     }
     
     private func setup(for displayingMode: PreviewTextDisplayingMode) {
