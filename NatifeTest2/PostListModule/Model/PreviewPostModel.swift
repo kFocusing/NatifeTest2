@@ -11,7 +11,7 @@ struct PreviewPostListModel: Codable {
     let posts: [PreviewPostModel]
 }
 
-struct PreviewPostModel: Codable {
+struct PreviewPostModel: Codable, Equatable {
     let postID, timeshamp: Int
     let title, previewText: String
     let likesCount: Int

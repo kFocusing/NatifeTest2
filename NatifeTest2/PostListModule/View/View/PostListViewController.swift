@@ -93,7 +93,7 @@ extension PostListViewController: UITableViewDataSource {
         let cell = PostXibTableViewCell.dequeueCell(in: tableView, indexPath: indexPath)
         let item = presenter.item(at: indexPath.item)
         cell.configure(post: item) { [weak self] in
-            self?.presenter.toglePostIsExpanded(for: indexPath.item)
+            self?.presenter.toglePostIsExpanded(for: indexPath.row)
         }
         return cell
     }
@@ -102,7 +102,7 @@ extension PostListViewController: UITableViewDataSource {
 //MARK: - UITableViewDelegate -
 extension PostListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        presenter.showPostDetail(with: presenter.item(at: indexPath.item)?.postID ?? 0)
+        presenter.showPostDetail(with: presenter.item(at: indexPath.row)?.postID ?? 0)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

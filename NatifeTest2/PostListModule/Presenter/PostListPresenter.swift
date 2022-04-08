@@ -32,7 +32,7 @@ class PostListPresenter: PostListPresenterProtocol {
     weak var view: PostListViewProtocol?
     var router: RouterProtocol?
     let postsService: PostsServiceProtocol!
-    private var posts: [PreviewPostModel]?
+    private var posts: [PreviewPostModel]
     
     //MARK: - Life Cycle -
     required init(view: PostListViewProtocol,
@@ -41,6 +41,7 @@ class PostListPresenter: PostListPresenterProtocol {
         self.postsService = postsService
         self.view = view
         self.router = router
+        self.posts = []
     }
     
     //MARK: - Internal -
@@ -49,12 +50,11 @@ class PostListPresenter: PostListPresenterProtocol {
     }
     
     func item(at index: Int) -> PreviewPostModel? {
-        guard let posts = posts else { return nil }
         return posts[index]
     }
     
     func itemsCount() -> Int {
-        return posts?.count ?? 0
+        return posts.count
     }
     
     func showPostDetail(with postID: Int) {
@@ -62,34 +62,36 @@ class PostListPresenter: PostListPresenterProtocol {
     }
     
     func toglePostIsExpanded(for index: Int) {
-        guard let postIndex = posts?.firstIndex(where: {
-            post in post.postID == item(at: index)?.postID
-        }) else { return }
-        posts?[postIndex].isExpanded.toggle()
+        guard let postIndex = posts.firstIndex(where: {
+            post in post == item(at: index)
+        }) else {
+            return
+        }
+        posts[postIndex].isExpanded.toggle()
         view?.update()
     }
     
     func sortPosts(by criterion: SortType) {
         switch criterion {
         case .dateSort:
-            posts = posts?.sorted(by: { $0.timeshamp > $1.timeshamp })
+            posts = posts.sorted(by: { $0.timeshamp > $1.timeshamp })
         case .ratingSort:
-            posts = posts?.sorted(by: { $0.likesCount > $1.likesCount })
+            posts = posts.sorted(by: { $0.likesCount > $1.likesCount })
         case .defaultSort:
-            posts = posts?.sorted(by: { $0.postID < $1.postID })
+            posts = posts.sorted(by: { $0.postID < $1.postID })
         }
         view?.update()
     }
     
     //MARK: - Private -
     private func getPreviewPosts() {
-        view?.showActivityIndicator()
+        self.view?.showActivityIndicator()
         postsService.fetchPostLists(route: "main.json") {  [weak self] response, error in
+            self?.view?.hideActivityIndicator()
             if let response = response {
                 DispatchQueue.main.async { [weak self] in
                     self?.posts = response.posts
                     self?.view?.update()
-                    self?.view?.hideActivityIndicator()
                 }
             } else {
                 guard let error = error?.message else {
