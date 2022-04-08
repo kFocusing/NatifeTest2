@@ -16,6 +16,7 @@ class PostXibTableViewCell: BaseTableViewCell {
     
     //MARK: - Variables -
     private var readMoreTapped: EmptyBlock?
+    private let maximumNumberOfLinesCollapsed = 2
     
     //MARK: - Internal -
     func configure(post: PreviewPostModel?, readMoreTapped: EmptyBlock?) {
@@ -38,13 +39,13 @@ class PostXibTableViewCell: BaseTableViewCell {
     
     private func configure(_ isExpanded: Bool) {
         isExpanded ? setup(for: .fullPreview) : setup(for: .shortPreview)
-        readMoreButton.isHidden = previewTextLabel.numberOfTextLines <= 2
+        readMoreButton.isHidden = previewTextLabel.numberOfTextLines <= maximumNumberOfLinesCollapsed
     }
     
     private func setup(for displayingMode: PreviewTextDisplayingMode) {
         switch displayingMode {
         case .shortPreview:
-            previewTextLabel.numberOfLines = 2
+            previewTextLabel.numberOfLines = maximumNumberOfLinesCollapsed
             readMoreButton.setTitle("Читать далее...", for: .normal)
         case .fullPreview:
             previewTextLabel.numberOfLines = 0
