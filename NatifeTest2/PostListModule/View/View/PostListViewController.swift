@@ -38,7 +38,7 @@ class PostListViewController: BaseViewController {
     private var itemsPerRow: CGFloat = 1
     private let sectionInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     
-    private var gridCollectionViewChoosen = true
+    private var galleryCollectionViewChoosen = true
     
     //MARK: - Life Cycle -
     override func viewDidLoad() {
@@ -153,14 +153,14 @@ class PostListViewController: BaseViewController {
             collectionView.isHidden = true
         } else if selectedIndex == ModuleType.grid.rawValue  {
             itemsPerRow = 2
-            gridCollectionViewChoosen = false
+            galleryCollectionViewChoosen = false
             tableView.isHidden = true
             collectionView.isHidden = false
             GridPreviewPostCollectionViewCell.registerXIB(in: collectionView)
             collectionView.reloadData()
         } else {
             itemsPerRow = 1
-            gridCollectionViewChoosen = true
+            galleryCollectionViewChoosen = true
             tableView.isHidden = true
             collectionView.isHidden = false
             GalleryPreviewPostCollectionViewCell.registerXIB(in: collectionView)
@@ -223,7 +223,7 @@ extension PostListViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if gridCollectionViewChoosen {
+        if galleryCollectionViewChoosen {
             let cell = GalleryPreviewPostCollectionViewCell.dequeueCellWithType(in: collectionView,
                                                                                 indexPath: indexPath)
             let item = presenter.item(at: indexPath.item)
