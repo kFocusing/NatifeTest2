@@ -38,6 +38,8 @@ class PostListViewController: BaseViewController {
     private var itemsPerRow: CGFloat = 1
     private let sectionInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     
+    private var gridCollectionViewChoosen = true
+    
     //MARK: - Life Cycle -
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,9 +80,7 @@ class PostListViewController: BaseViewController {
     private func setupCollectionView() {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.estimatedItemSize = CGSize(width: calculateWidthforItem(),
-                                          height: 140)
-        layout.itemSize = CGSize(width: calculateWidthforItem(),
-                                 height: UICollectionViewFlowLayout.automaticSize.height)
+                                                  height: 140)
         layout.sectionInset = sectionInsets
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -91,14 +91,14 @@ class PostListViewController: BaseViewController {
         
         view.addSubview(collectionView)
         layoutCollectionView()
-        PreviewPostCollectionViewCell.registerXIB(in: collectionView)
+        GalleryPreviewPostCollectionViewCell.registerXIB(in: collectionView)
         collectionView.isHidden = true
     }
     
     private func layoutCollectionView() {
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
-                                                constant: 30),
+                                                constant: 40),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -148,18 +148,22 @@ class PostListViewController: BaseViewController {
     }
     
     private func updateSelectedViewType(_ selectedIndex: Int) {
-        if selectedIndex == 0 {
+        if selectedIndex == ModuleType.list.rawValue {
             tableView.isHidden = false
             collectionView.isHidden = true
-        } else if selectedIndex == 1 {
+        } else if selectedIndex == ModuleType.grid.rawValue  {
             itemsPerRow = 2
+            gridCollectionViewChoosen = false
             tableView.isHidden = true
             collectionView.isHidden = false
+            GridPreviewPostCollectionViewCell.registerXIB(in: collectionView)
             collectionView.reloadData()
         } else {
             itemsPerRow = 1
+            gridCollectionViewChoosen = true
             tableView.isHidden = true
             collectionView.isHidden = false
+            GalleryPreviewPostCollectionViewCell.registerXIB(in: collectionView)
             collectionView.reloadData()
         }
     }
@@ -200,8 +204,13 @@ extension PostListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-                return CGSize(width: calculateWidthforItem(), height: 150)
-        }
+        return CGSize(width: calculateWidthforItem(), height: 170)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
+        presenter.showPostDetail(with: presenter.item(at: indexPath.row)?.postID ?? 0)
+    }
 }
 
 
@@ -214,14 +223,24 @@ extension PostListViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = PreviewPostCollectionViewCell.dequeueCellWithType(in: collectionView,
-                                                                     indexPath: indexPath)
-        let item = presenter.item(at: indexPath.item)
-        cell.configure(post: item) { [weak self] in
-            self?.presenter.toglePostIsExpanded(for: indexPath.item)
+        if gridCollectionViewChoosen {
+            let cell = GalleryPreviewPostCollectionViewCell.dequeueCellWithType(in: collectionView,
+                                                                                indexPath: indexPath)
+            let item = presenter.item(at: indexPath.item)
+            cell.configure(post: item) { [weak self] in
+                self?.presenter.toglePostIsExpanded(for: indexPath.item)
+            }
+            cell.addBorder()
+            return cell
+        } else {
+            let cell = GridPreviewPostCollectionViewCell.dequeueCellWithType(in: collectionView,
+                                                                             indexPath: indexPath)
+            
+            let item = presenter.item(at: indexPath.item)
+            cell.configure(post: item)
+            cell.addBorder()
+            return cell
         }
-        return cell
-        
     }
 }
 
@@ -237,4 +256,8 @@ extension PostListViewController: PostListViewProtocol {
     func displayError(_ error: String) {
         configureErrorAlert(with: error)
     }
+}
+
+private enum ModuleType: Int, CaseIterable {
+    case list = 0, grid, gallery
 }

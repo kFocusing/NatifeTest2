@@ -10,7 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PreviewPostCollectionViewCell" id="Zr0-YS-IC4" customClass="PreviewPostCollectionViewCell" customModule="NatifeTest2" customModuleProvider="target">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="GalleryPreviewPostCollectionViewCell" id="Zr0-YS-IC4" customClass="GalleryPreviewPostCollectionViewCell" customModule="NatifeTest2" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="575" height="146"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="b1f-eC-E4S">
@@ -73,8 +73,10 @@
                             <constraint firstItem="nly-2e-HtU" firstAttribute="leading" secondItem="5v6-Ze-iKI" secondAttribute="leading" constant="22" id="3SR-9M-fvX"/>
                             <constraint firstItem="xBO-0r-N4a" firstAttribute="bottom" secondItem="VFs-AP-PAL" secondAttribute="bottom" id="3zA-E4-054"/>
                             <constraint firstItem="iIu-R3-mNS" firstAttribute="centerX" secondItem="5v6-Ze-iKI" secondAttribute="centerX" id="45N-YS-eEE"/>
+                            <constraint firstItem="nly-2e-HtU" firstAttribute="top" secondItem="fB8-Dc-A3A" secondAttribute="bottom" constant="34.5" id="96o-cF-dFw"/>
                             <constraint firstAttribute="bottom" secondItem="VFs-AP-PAL" secondAttribute="bottom" constant="10" id="9iB-6G-5rd"/>
                             <constraint firstItem="iIu-R3-mNS" firstAttribute="trailing" secondItem="fB8-Dc-A3A" secondAttribute="trailing" id="AIH-Z8-BGB"/>
+                            <constraint firstItem="xBO-0r-N4a" firstAttribute="top" secondItem="fB8-Dc-A3A" secondAttribute="bottom" constant="33.5" id="MNG-sd-OXj"/>
                             <constraint firstItem="VFs-AP-PAL" firstAttribute="leading" relation="lessThanOrEqual" secondItem="xBO-0r-N4a" secondAttribute="trailing" constant="223" id="WeC-Vs-Rqh"/>
                             <constraint firstItem="VFs-AP-PAL" firstAttribute="top" secondItem="3Sg-KI-0KR" secondAttribute="bottom" constant="8" symbolic="YES" id="YfF-t2-0Bq"/>
                             <constraint firstItem="nly-2e-HtU" firstAttribute="bottom" secondItem="xBO-0r-N4a" secondAttribute="bottom" id="aL2-2G-XYm"/>

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PreviewPostCollectionViewCell: BaseDynamicHeightCollectionCell {
+class GalleryPreviewPostCollectionViewCell: BaseCollectionViewCell {
     
     //MARK: - UIElements -
     @IBOutlet private weak var titleLabel: UILabel!
@@ -23,6 +23,7 @@ class PreviewPostCollectionViewCell: BaseDynamicHeightCollectionCell {
     //MARK: - Internal -
     func configure(post: PreviewPostModel?, readMoreTapped: EmptyBlock?) {
         self.readMoreTapped = readMoreTapped
+        self.backgroundColor = .white
         configureTextFields(post: post)
         configure(post?.isExpanded ?? false)
     }
