@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C70BC78828041F7900CFE8BC /* ScrollableSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70BC78728041F7900CFE8BC /* ScrollableSegmentedControl.swift */; };
+		C70BC78B28041FBE00CFE8BC /* ScrollableSegmentedControlCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70BC78A28041FBE00CFE8BC /* ScrollableSegmentedControlCollectionViewCell.swift */; };
+		C70BC7902804200B00CFE8BC /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70BC78F2804200B00CFE8BC /* BaseCollectionViewCell.swift */; };
+		C72A518F28044ACD0009D37C /* PreviewPostCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C72A518E28044ACD0009D37C /* PreviewPostCollectionViewCell.xib */; };
 		C76E67B927FD0C880023CE9D /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76E67B827FD0C880023CE9D /* BaseViewController.swift */; };
 		C77B179727FF5B3000D2EE26 /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77B179627FF5B3000D2EE26 /* BaseService.swift */; };
 		C786EB2627F73577008D36BF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C786EB2527F73577008D36BF /* AppDelegate.swift */; };
@@ -28,6 +32,8 @@
 		C786EB5E27F79905008D36BF /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C786EB5D27F79905008D36BF /* IntExtension.swift */; };
 		C786EB6027F79911008D36BF /* CellRegister&DequeueReusableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C786EB5F27F79911008D36BF /* CellRegister&DequeueReusableExtension.swift */; };
 		C786EB7827FA007F008D36BF /* PostXibTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C786EB7727FA007F008D36BF /* PostXibTableViewCell.xib */; };
+		C7954A2E280441EF009D80A4 /* BaseDynamicHeightCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7954A2D280441EF009D80A4 /* BaseDynamicHeightCollectionViewCell.swift */; };
+		C7954A302804427A009D80A4 /* PreviewPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7954A2F2804427A009D80A4 /* PreviewPostCollectionViewCell.swift */; };
 		C7ACEA2727FB7DFB00EEC87F /* DetailPostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7ACEA2627FB7DFB00EEC87F /* DetailPostModel.swift */; };
 		C7ACEA2927FC477500EEC87F /* PostsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7ACEA2827FC477500EEC87F /* PostsService.swift */; };
 		C7D694FA27FEFBFA00C22CB7 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D694F927FEFBF900C22CB7 /* UIColorExtension.swift */; };
@@ -36,6 +42,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C70BC78728041F7900CFE8BC /* ScrollableSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableSegmentedControl.swift; sourceTree = "<group>"; };
+		C70BC78A28041FBE00CFE8BC /* ScrollableSegmentedControlCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableSegmentedControlCollectionViewCell.swift; sourceTree = "<group>"; };
+		C70BC78F2804200B00CFE8BC /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
+		C72A518E28044ACD0009D37C /* PreviewPostCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PreviewPostCollectionViewCell.xib; sourceTree = "<group>"; };
 		C76E67B827FD0C880023CE9D /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		C77B179627FF5B3000D2EE26 /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
 		C786EB2227F73577008D36BF /* NatifeTest2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NatifeTest2.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -59,6 +69,8 @@
 		C786EB5D27F79905008D36BF /* IntExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
 		C786EB5F27F79911008D36BF /* CellRegister&DequeueReusableExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CellRegister&DequeueReusableExtension.swift"; sourceTree = "<group>"; };
 		C786EB7727FA007F008D36BF /* PostXibTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostXibTableViewCell.xib; sourceTree = "<group>"; };
+		C7954A2D280441EF009D80A4 /* BaseDynamicHeightCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDynamicHeightCollectionViewCell.swift; sourceTree = "<group>"; };
+		C7954A2F2804427A009D80A4 /* PreviewPostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewPostCollectionViewCell.swift; sourceTree = "<group>"; };
 		C7ACEA2627FB7DFB00EEC87F /* DetailPostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPostModel.swift; sourceTree = "<group>"; };
 		C7ACEA2827FC477500EEC87F /* PostsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsService.swift; sourceTree = "<group>"; };
 		C7D694F927FEFBF900C22CB7 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
@@ -77,6 +89,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C70BC78928041FA200CFE8BC /* ScrollableSegmentedControl */ = {
+			isa = PBXGroup;
+			children = (
+				C70BC78E28041FF000CFE8BC /* ScrollableSegmentedControllCell */,
+				C70BC78728041F7900CFE8BC /* ScrollableSegmentedControl.swift */,
+			);
+			path = ScrollableSegmentedControl;
+			sourceTree = "<group>";
+		};
+		C70BC78E28041FF000CFE8BC /* ScrollableSegmentedControllCell */ = {
+			isa = PBXGroup;
+			children = (
+				C70BC78A28041FBE00CFE8BC /* ScrollableSegmentedControlCollectionViewCell.swift */,
+			);
+			path = ScrollableSegmentedControllCell;
+			sourceTree = "<group>";
+		};
 		C786EB1927F73577008D36BF = {
 			isa = PBXGroup;
 			children = (
@@ -190,6 +219,7 @@
 		C786EB6C27F9E8FA008D36BF /* View */ = {
 			isa = PBXGroup;
 			children = (
+				C70BC78928041FA200CFE8BC /* ScrollableSegmentedControl */,
 				C786EB7927FA0ED8008D36BF /* PostCell */,
 				C786EB7627FA004E008D36BF /* Storyboard */,
 				C786EB7527FA003B008D36BF /* View */,
@@ -256,11 +286,31 @@
 		C786EB7927FA0ED8008D36BF /* PostCell */ = {
 			isa = PBXGroup;
 			children = (
-				C786EB5127F798C0008D36BF /* BaseTableViewCell.swift */,
-				C786EB2927F73577008D36BF /* PostXibTableViewCell.swift */,
-				C786EB7727FA007F008D36BF /* PostXibTableViewCell.xib */,
+				C7954A2B280441C3009D80A4 /* TableView */,
+				C7954A2A280441BC009D80A4 /* CollectionView */,
 			);
 			path = PostCell;
+			sourceTree = "<group>";
+		};
+		C7954A2A280441BC009D80A4 /* CollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				C70BC78F2804200B00CFE8BC /* BaseCollectionViewCell.swift */,
+				C7954A2D280441EF009D80A4 /* BaseDynamicHeightCollectionViewCell.swift */,
+				C7954A2F2804427A009D80A4 /* PreviewPostCollectionViewCell.swift */,
+				C72A518E28044ACD0009D37C /* PreviewPostCollectionViewCell.xib */,
+			);
+			path = CollectionView;
+			sourceTree = "<group>";
+		};
+		C7954A2B280441C3009D80A4 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				C786EB7727FA007F008D36BF /* PostXibTableViewCell.xib */,
+				C786EB5127F798C0008D36BF /* BaseTableViewCell.swift */,
+				C786EB2927F73577008D36BF /* PostXibTableViewCell.swift */,
+			);
+			path = TableView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -322,6 +372,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C786EB3227F73579008D36BF /* LaunchScreen.storyboard in Resources */,
+				C72A518F28044ACD0009D37C /* PreviewPostCollectionViewCell.xib in Resources */,
 				C786EB2F27F73579008D36BF /* Assets.xcassets in Resources */,
 				C786EB2D27F73577008D36BF /* PostList.storyboard in Resources */,
 				C786EB7827FA007F008D36BF /* PostXibTableViewCell.xib in Resources */,
@@ -344,16 +395,21 @@
 				C786EB2A27F73577008D36BF /* PostXibTableViewCell.swift in Sources */,
 				C7D694FA27FEFBFA00C22CB7 /* UIColorExtension.swift in Sources */,
 				C7ACEA2727FB7DFB00EEC87F /* DetailPostModel.swift in Sources */,
+				C7954A302804427A009D80A4 /* PreviewPostCollectionViewCell.swift in Sources */,
 				C786EB2627F73577008D36BF /* AppDelegate.swift in Sources */,
 				C786EB5827F798E6008D36BF /* PostDetailPresenter.swift in Sources */,
 				C77B179727FF5B3000D2EE26 /* BaseService.swift in Sources */,
+				C70BC78B28041FBE00CFE8BC /* ScrollableSegmentedControlCollectionViewCell.swift in Sources */,
+				C70BC78828041F7900CFE8BC /* ScrollableSegmentedControl.swift in Sources */,
 				C786EB5227F798C0008D36BF /* BaseTableViewCell.swift in Sources */,
+				C70BC7902804200B00CFE8BC /* BaseCollectionViewCell.swift in Sources */,
 				C786EB5627F798DD008D36BF /* PostDetailViewController.swift in Sources */,
 				C7ACEA2927FC477500EEC87F /* PostsService.swift in Sources */,
 				C786EB6027F79911008D36BF /* CellRegister&DequeueReusableExtension.swift in Sources */,
 				C786EB5C27F798F6008D36BF /* UIViewExtension.swift in Sources */,
 				C786EB4E27F798AD008D36BF /* PostListViewController.swift in Sources */,
 				C7E0BE2F2800269C003440CE /* Сonstants.swift in Sources */,
+				C7954A2E280441EF009D80A4 /* BaseDynamicHeightCollectionViewCell.swift in Sources */,
 				C786EB5A27F798EF008D36BF /* NetworkService.swift in Sources */,
 				C7E0BE3128004975003440CE /* UILabelExtension.swift in Sources */,
 				C786EB2827F73577008D36BF /* SceneDelegate.swift in Sources */,

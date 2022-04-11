@@ -13,7 +13,7 @@ extension Int {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone(abbreviation: "GMT+2")
         dateFormatter.locale = NSLocale.current
-        dateFormatter.dateFormat = "HH:mm  MM/dd/yyyy"
+        dateFormatter.dateFormat = "HH:mm"
         let strDate = dateFormatter.string(from: date)
         return strDate
     }
