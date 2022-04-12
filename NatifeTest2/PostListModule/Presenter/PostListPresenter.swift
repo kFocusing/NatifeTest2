@@ -18,12 +18,15 @@ protocol PostListPresenterProtocol: AnyObject {
     init(view: PostListViewProtocol,
          postsService: PostsServiceProtocol,
          router: RouterProtocol)
-    func item(at index: Int) -> PreviewPostModel?
+    func getPost(at index: Int) -> PreviewPostModel?
     func itemsCount() -> Int
     func viewDidLoad()
     func showPostDetail(with postID: Int)
     func toglePostIsExpanded(for index: Int)
     func sortPosts(by criterion: SortType)
+    func searchPost(by searchText: String)
+    func filtredItemsCount() -> Int
+    func getFilterPost(at index: Int) -> PreviewPostModel?
 }
 
 class PostListPresenter: PostListPresenterProtocol {
@@ -33,6 +36,7 @@ class PostListPresenter: PostListPresenterProtocol {
     var router: RouterProtocol?
     let postsService: PostsServiceProtocol!
     private var posts: [PreviewPostModel]
+    private var filtredPost: [PreviewPostModel]
     
     //MARK: - Life Cycle -
     required init(view: PostListViewProtocol,
@@ -42,6 +46,7 @@ class PostListPresenter: PostListPresenterProtocol {
         self.view = view
         self.router = router
         self.posts = []
+        self.filtredPost = []
     }
     
     //MARK: - Internal -
@@ -49,13 +54,22 @@ class PostListPresenter: PostListPresenterProtocol {
         getPreviewPosts()
     }
     
-    func item(at index: Int) -> PreviewPostModel? {
+    func getPost(at index: Int) -> PreviewPostModel? {
         return posts[index]
+    }
+    
+    func getFilterPost(at index: Int) -> PreviewPostModel? {
+        return filtredPost[index]
     }
     
     func itemsCount() -> Int {
         return posts.count
     }
+    
+    func filtredItemsCount() -> Int {
+        return filtredPost.count
+    }
+    
     
     func showPostDetail(with postID: Int) {
         router?.showPostDetailViewController(with: postID)
@@ -63,7 +77,7 @@ class PostListPresenter: PostListPresenterProtocol {
     
     func toglePostIsExpanded(for index: Int) {
         guard let postIndex = posts.firstIndex(where: {
-            post in post == item(at: index)
+            post in post == getPost(at: index)
         }) else {
             return
         }
@@ -81,6 +95,12 @@ class PostListPresenter: PostListPresenterProtocol {
             posts = posts.sorted(by: { $0.postID < $1.postID })
         }
         view?.update()
+    }
+    
+    func searchPost(by searchText: String) {
+        filtredPost = posts.filter({ (post: PreviewPostModel) -> Bool in
+            return post.title.lowercased().contains(searchText.lowercased())
+        })
     }
     
     //MARK: - Private -
