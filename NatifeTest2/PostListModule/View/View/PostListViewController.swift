@@ -33,6 +33,8 @@ class PostListViewController: BaseViewController {
     
     private var collectionView: UICollectionView!
     
+    private var searchController = UISearchController(searchResultsController: nil)
+    
     //MARK: - Variables -
     var presenter: PostListPresenterProtocol!
     private var itemsPerRow: CGFloat = 1
@@ -48,7 +50,9 @@ class PostListViewController: BaseViewController {
         setupTableView()
         setupCollectionView()
         layoutDynamicSegmentedControl()
-        layoutDynamicSegmentedControl()
+        
+        
+        
         presenter.viewDidLoad()
     }
     
@@ -260,4 +264,13 @@ extension PostListViewController: PostListViewProtocol {
 
 private enum ModuleType: Int, CaseIterable {
     case list = 0, grid, gallery
+}
+
+// MARK: - UISearchResultsUpdating -
+extension PostListViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        
+    }
+    
+    
 }
