@@ -48,7 +48,6 @@ class PostListViewController: BaseViewController {
         setupTableView()
         setupCollectionView()
         layoutDynamicSegmentedControl()
-        layoutDynamicSegmentedControl()
         presenter.viewDidLoad()
     }
     
