@@ -82,7 +82,9 @@ class PostListPresenter: PostListPresenterProtocol {
             return
         }
         posts[postIndex].isExpanded.toggle()
-        filtredPost[postIndex].isExpanded.toggle()
+        if !filtredPost.isEmpty {
+            filtredPost[postIndex].isExpanded.toggle()
+        }
         view?.update()
     }
     
