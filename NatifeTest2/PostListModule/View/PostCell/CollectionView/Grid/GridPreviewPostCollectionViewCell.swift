@@ -7,9 +7,9 @@
 
 import UIKit
 
-class GridPreviewPostCollectionViewCell: BaseCollectionViewCell {
+class GridPreviewPostCollectionViewCell: DynamicHeightCollectionViewCell {
     
-    //MARK: - UIElements -
+    //MARK: - IBOutlets -
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var previewTextLabel: UILabel!
     @IBOutlet private weak var publishDateLabel: UILabel!
@@ -19,6 +19,7 @@ class GridPreviewPostCollectionViewCell: BaseCollectionViewCell {
     //MARK: - Internal -
     func configure(post: PreviewPostModel?) {
         self.backgroundColor = .white
+        addBorder()
         configureTextFields(post: post)
     }
     
@@ -26,7 +27,7 @@ class GridPreviewPostCollectionViewCell: BaseCollectionViewCell {
     private func configureTextFields(post: PreviewPostModel?) {
         titleLabel.text = post?.title ?? ""
         previewTextLabel.text = post?.previewText ?? ""
-        publishDateLabel.text = post?.timeshamp.timeshampToDateString() ?? ""
+        publishDateLabel.text = Date.timeshampToDateString(post?.timeshamp)
         likesCount.text = String(post?.likesCount ?? 0)
     }
 }

@@ -31,7 +31,7 @@ protocol PostListPresenterProtocol: AnyObject {
 
 class PostListPresenter: PostListPresenterProtocol {
     
-    //MARK: - Variables -
+    //MARK: - Properties -
     weak var view: PostListViewProtocol?
     var router: RouterProtocol?
     let postsService: PostsServiceProtocol!

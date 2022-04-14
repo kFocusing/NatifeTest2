@@ -24,7 +24,7 @@ class PostListViewController: BaseViewController {
     
     private lazy var dynamicSegmentedControl: DynamicSegmentedControl = {
         let dynamicSegmentedControl = DynamicSegmentedControl(changeSelectedItem: updateSelectedViewType)
-        let segmentArray = ["List", "Grid", "Gallery"]
+        let segmentArray = ListDisplayMode.allValues
         dynamicSegmentedControl.configure(with: segmentArray)
         dynamicSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(dynamicSegmentedControl)
@@ -35,12 +35,12 @@ class PostListViewController: BaseViewController {
     
     private var searchController = UISearchController(searchResultsController: nil)
     
-    //MARK: - Variables -
+    //MARK: - Properties -
     var presenter: PostListPresenterProtocol!
     private var itemsPerRow: CGFloat = 1
     private let sectionInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     
-    private var galleryCollectionViewChoosen = true
+    private var listDisplayMode: ListDisplayMode = .list
     
     private var isFiltering: Bool {
         return searchController.isActive && !searchBarIsEmpty
@@ -85,12 +85,12 @@ class PostListViewController: BaseViewController {
     private func setupTableView() {
         layoutTableView()
         PostXibTableViewCell.registerXIB(in: tableView)
+        
     }
     
     private func setupCollectionView() {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.estimatedItemSize = CGSize(width: calculateWidthforItem(),
-                                          height: 140)
+        layout.estimatedItemSize = CGSize(width: 150, height: 140)
         layout.sectionInset = sectionInsets
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -99,9 +99,11 @@ class PostListViewController: BaseViewController {
         collectionView.delegate = self
         collectionView.showsHorizontalScrollIndicator = false
         
+        
         view.addSubview(collectionView)
-        layoutCollectionView()
+        GridPreviewPostCollectionViewCell.registerXIB(in: collectionView)
         GalleryPreviewPostCollectionViewCell.registerXIB(in: collectionView)
+        layoutCollectionView()
         collectionView.isHidden = true
     }
     
@@ -165,23 +167,23 @@ class PostListViewController: BaseViewController {
         return widthPerItem
     }
     
-    private func updateSelectedViewType(_ selectedIndex: Int) {
-        if selectedIndex == ModuleType.list.rawValue {
+    private func updateSelectedViewType(_ selectedListDisplayMode: ListDisplayMode) {
+        switch selectedListDisplayMode {
+        case .list:
+            listDisplayMode = .list
             tableView.isHidden = false
             collectionView.isHidden = true
-        } else if selectedIndex == ModuleType.grid.rawValue  {
+        case .grid:
             itemsPerRow = 2
-            galleryCollectionViewChoosen = false
+            listDisplayMode = .grid
             tableView.isHidden = true
             collectionView.isHidden = false
-            GridPreviewPostCollectionViewCell.registerXIB(in: collectionView)
             collectionView.reloadData()
-        } else {
+        case .gallery:
             itemsPerRow = 1
-            galleryCollectionViewChoosen = true
+            listDisplayMode = .gallery
             tableView.isHidden = true
             collectionView.isHidden = false
-            GalleryPreviewPostCollectionViewCell.registerXIB(in: collectionView)
             collectionView.reloadData()
         }
     }
@@ -199,7 +201,7 @@ extension PostListViewController: UITableViewDataSource {
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = PostXibTableViewCell.dequeueCell(in: tableView, indexPath: indexPath)
         let item: PreviewPostModel? = isFiltering ? presenter.getFilterPost(at: indexPath.row)
-                                                  : presenter.getPost(at: indexPath.row)
+        : presenter.getPost(at: indexPath.row)
         cell.configure(post: item) { [weak self] in
             self?.presenter.toglePostIsExpanded(for: indexPath.row)
         }
@@ -212,7 +214,7 @@ extension PostListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
         let post: Int = (isFiltering ? presenter.getFilterPost(at: indexPath.row)?.postID
-                                     : presenter.getPost(at: indexPath.row)?.postID) ?? 0
+                         : presenter.getPost(at: indexPath.row)?.postID) ?? 0
         presenter.showPostDetail(with: post)
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -231,7 +233,7 @@ extension PostListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
         let post: Int = (isFiltering ? presenter.getFilterPost(at: indexPath.row)?.postID
-                                     : presenter.getPost(at: indexPath.row)?.postID) ?? 0
+                         : presenter.getPost(at: indexPath.row)?.postID) ?? 0
         presenter.showPostDetail(with: post)
     }
 }
@@ -247,20 +249,21 @@ extension PostListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let item: PreviewPostModel? = isFiltering ? presenter.getFilterPost(at: indexPath.row)
-                                                  : presenter.getPost(at: indexPath.row)
-        if galleryCollectionViewChoosen {
+        : presenter.getPost(at: indexPath.row)
+        
+        switch listDisplayMode {
+        case .list: fallthrough
+        case .gallery:
             let cell = GalleryPreviewPostCollectionViewCell.dequeueCellWithType(in: collectionView,
                                                                                 indexPath: indexPath)
             cell.configure(post: item) { [weak self] in
                 self?.presenter.toglePostIsExpanded(for: indexPath.item)
             }
-            cell.addBorder()
             return cell
-        } else {
+        case .grid:
             let cell = GridPreviewPostCollectionViewCell.dequeueCellWithType(in: collectionView,
                                                                              indexPath: indexPath)
             cell.configure(post: item)
-            cell.addBorder()
             return cell
         }
     }
@@ -293,7 +296,22 @@ extension PostListViewController: UISearchResultsUpdating {
     }
 }
 
-//MARK: - ModuleType Enum -
-private enum ModuleType: Int, CaseIterable {
-    case list = 0, grid, gallery
+//MARK: - ListDisplayMode Enum -
+enum ListDisplayMode: String, CaseIterable {
+    static var allValues: [RawValue] {
+        return allCases.map { $0.rawValue }
+    }
+    
+    static func getModByNumber(_ number: Int) -> ListDisplayMode {
+        if number == 0 {
+            return .list
+        } else if number == 1 {
+            return .grid
+        } else {
+            return .gallery
+        }
+    }
+    
+    case list = "list", grid = "grid", gallery = "gallery"
 }
+

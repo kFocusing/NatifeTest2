@@ -29,7 +29,7 @@
 		C786EB5827F798E6008D36BF /* PostDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C786EB5727F798E6008D36BF /* PostDetailPresenter.swift */; };
 		C786EB5A27F798EF008D36BF /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C786EB5927F798EF008D36BF /* NetworkService.swift */; };
 		C786EB5C27F798F6008D36BF /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C786EB5B27F798F6008D36BF /* UIViewExtension.swift */; };
-		C786EB5E27F79905008D36BF /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C786EB5D27F79905008D36BF /* IntExtension.swift */; };
+		C786EB5E27F79905008D36BF /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C786EB5D27F79905008D36BF /* DateExtension.swift */; };
 		C786EB6027F79911008D36BF /* CellRegister&DequeueReusableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C786EB5F27F79911008D36BF /* CellRegister&DequeueReusableExtension.swift */; };
 		C786EB7827FA007F008D36BF /* PostXibTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C786EB7727FA007F008D36BF /* PostXibTableViewCell.xib */; };
 		C7954A302804427A009D80A4 /* GalleryPreviewPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7954A2F2804427A009D80A4 /* GalleryPreviewPostCollectionViewCell.swift */; };
@@ -37,6 +37,7 @@
 		C7ACEA2927FC477500EEC87F /* PostsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7ACEA2827FC477500EEC87F /* PostsService.swift */; };
 		C7D0C2E2280481E000BEB4CB /* GridPreviewPostCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7D0C2E1280481E000BEB4CB /* GridPreviewPostCollectionViewCell.xib */; };
 		C7D0C2E42804823000BEB4CB /* GridPreviewPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D0C2E32804823000BEB4CB /* GridPreviewPostCollectionViewCell.swift */; };
+		C7D0C2E62808A06700BEB4CB /* DynamicHeightCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D0C2E52808A06700BEB4CB /* DynamicHeightCollectionViewCell.swift */; };
 		C7D694FA27FEFBFA00C22CB7 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D694F927FEFBF900C22CB7 /* UIColorExtension.swift */; };
 		C7E0BE2F2800269C003440CE /* Сonstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E0BE2E2800269C003440CE /* Сonstants.swift */; };
 		C7E0BE3128004975003440CE /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E0BE3028004975003440CE /* UILabelExtension.swift */; };
@@ -67,7 +68,7 @@
 		C786EB5727F798E6008D36BF /* PostDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailPresenter.swift; sourceTree = "<group>"; };
 		C786EB5927F798EF008D36BF /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		C786EB5B27F798F6008D36BF /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
-		C786EB5D27F79905008D36BF /* IntExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
+		C786EB5D27F79905008D36BF /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		C786EB5F27F79911008D36BF /* CellRegister&DequeueReusableExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CellRegister&DequeueReusableExtension.swift"; sourceTree = "<group>"; };
 		C786EB7727FA007F008D36BF /* PostXibTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostXibTableViewCell.xib; sourceTree = "<group>"; };
 		C7954A2F2804427A009D80A4 /* GalleryPreviewPostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryPreviewPostCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -75,6 +76,7 @@
 		C7ACEA2827FC477500EEC87F /* PostsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsService.swift; sourceTree = "<group>"; };
 		C7D0C2E1280481E000BEB4CB /* GridPreviewPostCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GridPreviewPostCollectionViewCell.xib; sourceTree = "<group>"; };
 		C7D0C2E32804823000BEB4CB /* GridPreviewPostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridPreviewPostCollectionViewCell.swift; sourceTree = "<group>"; };
+		C7D0C2E52808A06700BEB4CB /* DynamicHeightCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicHeightCollectionViewCell.swift; sourceTree = "<group>"; };
 		C7D694F927FEFBF900C22CB7 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		C7E0BE2E2800269C003440CE /* Сonstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Сonstants.swift"; sourceTree = "<group>"; };
 		C7E0BE3028004975003440CE /* UILabelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtension.swift; sourceTree = "<group>"; };
@@ -252,7 +254,7 @@
 			isa = PBXGroup;
 			children = (
 				C786EB5F27F79911008D36BF /* CellRegister&DequeueReusableExtension.swift */,
-				C786EB5D27F79905008D36BF /* IntExtension.swift */,
+				C786EB5D27F79905008D36BF /* DateExtension.swift */,
 				C786EB5B27F798F6008D36BF /* UIViewExtension.swift */,
 				C7D694F927FEFBF900C22CB7 /* UIColorExtension.swift */,
 				C7E0BE3028004975003440CE /* UILabelExtension.swift */,
@@ -300,6 +302,7 @@
 				C7D0C2E02804819A00BEB4CB /* Gallery */,
 				C7D0C2DF2804818F00BEB4CB /* Grid */,
 				C70BC78F2804200B00CFE8BC /* BaseCollectionViewCell.swift */,
+				C7D0C2E52808A06700BEB4CB /* DynamicHeightCollectionViewCell.swift */,
 			);
 			path = CollectionView;
 			sourceTree = "<group>";
@@ -406,7 +409,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C786EB5E27F79905008D36BF /* IntExtension.swift in Sources */,
+				C786EB5E27F79905008D36BF /* DateExtension.swift in Sources */,
 				C786EB5027F798B8008D36BF /* PostListPresenter.swift in Sources */,
 				C786EB5427F798C9008D36BF /* PreviewPostModel.swift in Sources */,
 				C786EB4C27F7989F008D36BF /* AssemblyModelBuilder.swift in Sources */,
@@ -431,6 +434,7 @@
 				C786EB4E27F798AD008D36BF /* PostListViewController.swift in Sources */,
 				C7E0BE2F2800269C003440CE /* Сonstants.swift in Sources */,
 				C786EB5A27F798EF008D36BF /* NetworkService.swift in Sources */,
+				C7D0C2E62808A06700BEB4CB /* DynamicHeightCollectionViewCell.swift in Sources */,
 				C7E0BE3128004975003440CE /* UILabelExtension.swift in Sources */,
 				C786EB2827F73577008D36BF /* SceneDelegate.swift in Sources */,
 			);

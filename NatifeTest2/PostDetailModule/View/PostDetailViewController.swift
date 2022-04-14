@@ -98,7 +98,7 @@ class PostDetailViewController: BaseViewController {
         detailTextLabel.text = post.text
         likeImage.image = UIImage(systemName: "heart")
         likesCountLabel.text = String(post.likesCount)
-        publishDateLabel.text = post.timeshamp.timeshampToDateString()
+        publishDateLabel.text = Date.timeshampToDateString(post.timeshamp)
         configureImageStackView(post: post)
     }
     

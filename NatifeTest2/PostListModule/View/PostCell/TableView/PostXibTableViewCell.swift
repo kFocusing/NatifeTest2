@@ -14,7 +14,7 @@ class PostXibTableViewCell: BaseTableViewCell {
     @IBOutlet private weak var likesCount: UILabel!
     @IBOutlet private weak var readMoreButton: UIButton!
     
-    //MARK: - Variables -
+    //MARK: - Properties -
     private var readMoreTapped: EmptyBlock?
     private let maximumNumberOfLinesCollapsed = 2
     
@@ -22,7 +22,7 @@ class PostXibTableViewCell: BaseTableViewCell {
     func configure(post: PreviewPostModel?, readMoreTapped: EmptyBlock?) {
         self.readMoreTapped = readMoreTapped
         configureTextFields(post: post)
-        configure(post?.isExpanded ?? false)
+        configureReadMoreButton(post?.isExpanded ?? false)
     }
     
     //MARK: - Private -
@@ -33,11 +33,11 @@ class PostXibTableViewCell: BaseTableViewCell {
     private func configureTextFields(post: PreviewPostModel?) {
         titleLabel.text = post?.title ?? ""
         previewTextLabel.text = post?.previewText ?? ""
-        publishDateLabel.text = post?.timeshamp.timeshampToDateString() ?? ""
+        publishDateLabel.text = Date.timeshampToDateString(post?.timeshamp)
         likesCount.text = String(post?.likesCount ?? 0)
     }
     
-    private func configure(_ isExpanded: Bool) {
+    private func configureReadMoreButton(_ isExpanded: Bool) {
         isExpanded ? setup(for: .fullPreview) : setup(for: .shortPreview)
         readMoreButton.isHidden = previewTextLabel.numberOfTextLines <= maximumNumberOfLinesCollapsed
     }
