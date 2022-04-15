@@ -63,7 +63,6 @@ class PostDetailPresenter: PostDetailViewPresenterProtocol {
                 }
                 self?.view?.displayError(error)
             }
-            self?.view?.hideActivityIndicator()
         }
     }
 }

@@ -180,6 +180,7 @@ class PostDetailViewController: BaseViewController {
                 }
             }
         }
+        hideActivityIndicator()
     }
     
     private func getImageView(with image: UIImage) -> UIImageView {
