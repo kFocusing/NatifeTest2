@@ -24,9 +24,7 @@ protocol PostListPresenterProtocol: AnyObject {
     func showPostDetail(with postID: Int)
     func toglePostIsExpanded(for index: Int)
     func sortPosts(by criterion: SortType)
-    func searchPost(by searchText: String)
-    func filtredItemsCount() -> Int
-    func getFilterPost(at index: Int) -> PreviewPostModel?
+    func updateSearchText(_ text: String)
 }
 
 class PostListPresenter: PostListPresenterProtocol {
@@ -36,7 +34,14 @@ class PostListPresenter: PostListPresenterProtocol {
     var router: RouterProtocol?
     let postsService: PostsServiceProtocol!
     private var posts: [PreviewPostModel]
-    private var filtredPost: [PreviewPostModel]
+    private var searchResults: [PreviewPostModel] 
+    private var dataSource: [PreviewPostModel] {
+        return isSearchActive ? searchResults : posts
+    }
+    private var searchText = ""
+    private var isSearchActive: Bool {
+        return searchText.isNonEmpty()
+    }
     
     //MARK: - Life Cycle -
     required init(view: PostListViewProtocol,
@@ -46,7 +51,7 @@ class PostListPresenter: PostListPresenterProtocol {
         self.view = view
         self.router = router
         self.posts = []
-        self.filtredPost = []
+        self.searchResults = []
     }
     
     //MARK: - Internal -
@@ -55,35 +60,33 @@ class PostListPresenter: PostListPresenterProtocol {
     }
     
     func getPost(at index: Int) -> PreviewPostModel? {
-        return posts[index]
+        return dataSource[index]
     }
     
-    func getFilterPost(at index: Int) -> PreviewPostModel? {
-        return filtredPost[index]
+    func updateSearchText(_ text: String) {
+        searchText = text
+        updateSearchResults()
     }
     
     func itemsCount() -> Int {
-        return posts.count
+        return dataSource.count
     }
-    
-    func filtredItemsCount() -> Int {
-        return filtredPost.count
-    }
-    
     
     func showPostDetail(with postID: Int) {
         router?.showPostDetailViewController(with: postID)
     }
     
     func toglePostIsExpanded(for index: Int) {
-        guard let postIndex = posts.firstIndex(where: {
+        guard let postIndex = dataSource.firstIndex(where: {
             post in post == getPost(at: index)
         }) else {
             return
         }
-        posts[postIndex].isExpanded.toggle()
-        if !filtredPost.isEmpty {
-            filtredPost[postIndex].isExpanded.toggle()
+        switch isSearchActive {
+        case true:
+            searchResults[postIndex].isExpanded.toggle()
+        case false:
+            posts[postIndex].isExpanded.toggle()
         }
         view?.update()
     }
@@ -98,12 +101,6 @@ class PostListPresenter: PostListPresenterProtocol {
             posts = posts.sorted(by: { $0.postID < $1.postID })
         }
         view?.update()
-    }
-    
-    func searchPost(by searchText: String) {
-        filtredPost = posts.filter({ (post: PreviewPostModel) -> Bool in
-            return post.title.lowercased().contains(searchText.lowercased())
-        })
     }
     
     //MARK: - Private -
@@ -124,6 +121,12 @@ class PostListPresenter: PostListPresenterProtocol {
                 self?.view?.displayError(error)
             }
         }
+    }
+    
+    private func updateSearchResults() {
+        searchResults = posts.filter({ (post: PreviewPostModel) -> Bool in
+            return post.title.lowercased().contains(searchText.lowercased())
+        })
     }
 }
 

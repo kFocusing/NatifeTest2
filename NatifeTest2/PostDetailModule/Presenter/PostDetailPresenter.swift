@@ -45,13 +45,13 @@ class PostDetailPresenter: PostDetailViewPresenterProtocol {
     //MARK: - Internal -
     func viewDidLoad() {
         getDetailPost(postID: postID)
+        
     }
     
-    //MARK: - Private - 
+    //MARK: - Private -
     private func getDetailPost(postID: Int) {
         view?.showActivityIndicator()
         postsService.fetchPost(route: "posts/\(postID).json") { [weak self] post, error in
-            self?.view?.hideActivityIndicator()
             if let post = post {
                 DispatchQueue.main.async { [weak self] in
                     self?.detailPost = post.post

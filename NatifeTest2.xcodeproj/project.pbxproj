@@ -38,6 +38,7 @@
 		C7D0C2E2280481E000BEB4CB /* GridPreviewPostCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7D0C2E1280481E000BEB4CB /* GridPreviewPostCollectionViewCell.xib */; };
 		C7D0C2E42804823000BEB4CB /* GridPreviewPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D0C2E32804823000BEB4CB /* GridPreviewPostCollectionViewCell.swift */; };
 		C7D0C2E62808A06700BEB4CB /* DynamicHeightCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D0C2E52808A06700BEB4CB /* DynamicHeightCollectionViewCell.swift */; };
+		C7D0C2EA2809929600BEB4CB /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D0C2E92809929600BEB4CB /* StringExtension.swift */; };
 		C7D694FA27FEFBFA00C22CB7 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D694F927FEFBF900C22CB7 /* UIColorExtension.swift */; };
 		C7E0BE2F2800269C003440CE /* Сonstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E0BE2E2800269C003440CE /* Сonstants.swift */; };
 		C7E0BE3128004975003440CE /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E0BE3028004975003440CE /* UILabelExtension.swift */; };
@@ -77,6 +78,7 @@
 		C7D0C2E1280481E000BEB4CB /* GridPreviewPostCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GridPreviewPostCollectionViewCell.xib; sourceTree = "<group>"; };
 		C7D0C2E32804823000BEB4CB /* GridPreviewPostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridPreviewPostCollectionViewCell.swift; sourceTree = "<group>"; };
 		C7D0C2E52808A06700BEB4CB /* DynamicHeightCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicHeightCollectionViewCell.swift; sourceTree = "<group>"; };
+		C7D0C2E92809929600BEB4CB /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		C7D694F927FEFBF900C22CB7 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		C7E0BE2E2800269C003440CE /* Сonstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Сonstants.swift"; sourceTree = "<group>"; };
 		C7E0BE3028004975003440CE /* UILabelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtension.swift; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 				C786EB5B27F798F6008D36BF /* UIViewExtension.swift */,
 				C7D694F927FEFBF900C22CB7 /* UIColorExtension.swift */,
 				C7E0BE3028004975003440CE /* UILabelExtension.swift */,
+				C7D0C2E92809929600BEB4CB /* StringExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -421,6 +424,7 @@
 				C7ACEA2727FB7DFB00EEC87F /* DetailPostModel.swift in Sources */,
 				C7954A302804427A009D80A4 /* GalleryPreviewPostCollectionViewCell.swift in Sources */,
 				C786EB2627F73577008D36BF /* AppDelegate.swift in Sources */,
+				C7D0C2EA2809929600BEB4CB /* StringExtension.swift in Sources */,
 				C786EB5827F798E6008D36BF /* PostDetailPresenter.swift in Sources */,
 				C77B179727FF5B3000D2EE26 /* BaseService.swift in Sources */,
 				C70BC78B28041FBE00CFE8BC /* ScrollableSegmentedControlCollectionViewCell.swift in Sources */,

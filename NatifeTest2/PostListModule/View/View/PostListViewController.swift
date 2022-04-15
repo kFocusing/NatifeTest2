@@ -42,14 +42,6 @@ class PostListViewController: BaseViewController {
     
     private var listDisplayMode: ListDisplayMode = .list
     
-    private var isFiltering: Bool {
-        return searchController.isActive && !searchBarIsEmpty
-    }
-    private var searchBarIsEmpty: Bool {
-        guard let text = searchController.searchBar.text else { return false }
-        return text.isEmpty
-    }
-    
     //MARK: - Life Cycle -
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,6 +86,7 @@ class PostListViewController: BaseViewController {
         layout.sectionInset = sectionInsets
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .white
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -120,6 +113,8 @@ class PostListViewController: BaseViewController {
     private func setupNavigationBar() {
         title = "Post List"
         navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: #selector(sortPressed)), animated: true)
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
+        navigationItem.titleView?.backgroundColor = .white
         navigationItem.searchController = searchController
         definesPresentationContext = true
     }
@@ -194,14 +189,13 @@ class PostListViewController: BaseViewController {
 extension PostListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
-        return isFiltering ? presenter.filtredItemsCount() : presenter.itemsCount()
+        return presenter.itemsCount()
     }
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = PostXibTableViewCell.dequeueCell(in: tableView, indexPath: indexPath)
-        let item: PreviewPostModel? = isFiltering ? presenter.getFilterPost(at: indexPath.row)
-        : presenter.getPost(at: indexPath.row)
+        let item: PreviewPostModel? = presenter.getPost(at: indexPath.row)
         cell.configure(post: item) { [weak self] in
             self?.presenter.toglePostIsExpanded(for: indexPath.row)
         }
@@ -213,8 +207,7 @@ extension PostListViewController: UITableViewDataSource {
 extension PostListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
-        let post: Int = (isFiltering ? presenter.getFilterPost(at: indexPath.row)?.postID
-                         : presenter.getPost(at: indexPath.row)?.postID) ?? 0
+        let post = presenter.getPost(at: indexPath.row)?.postID ?? 0
         presenter.showPostDetail(with: post)
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -232,8 +225,7 @@ extension PostListViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
-        let post: Int = (isFiltering ? presenter.getFilterPost(at: indexPath.row)?.postID
-                         : presenter.getPost(at: indexPath.row)?.postID) ?? 0
+        let post = presenter.getPost(at: indexPath.row)?.postID ?? 0
         presenter.showPostDetail(with: post)
     }
 }
@@ -243,14 +235,12 @@ extension PostListViewController: UICollectionViewDelegateFlowLayout {
 extension PostListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return isFiltering ? presenter.filtredItemsCount() : presenter.itemsCount()
+        return presenter.itemsCount()
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let item: PreviewPostModel? = isFiltering ? presenter.getFilterPost(at: indexPath.row)
-        : presenter.getPost(at: indexPath.row)
-        
+        let item = presenter.getPost(at: indexPath.row)
         switch listDisplayMode {
         case .list: fallthrough
         case .gallery:
@@ -286,13 +276,8 @@ extension PostListViewController: PostListViewProtocol {
 // MARK: - UISearchResultsUpdating -
 extension PostListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        filterContentForSearchText(searchController.searchBar.text!)
-    }
-    
-    private func filterContentForSearchText(_ searchText: String) {
-        presenter.searchPost(by: searchText)
-        tableView.reloadData()
-        collectionView.reloadData()
+        presenter.updateSearchText(searchController.searchBar.text ?? "")
+        update()
     }
 }
 

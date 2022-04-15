@@ -22,6 +22,7 @@ class PostDetailViewController: BaseViewController {
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.text = ""
+        titleLabel.textColor = .black
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = .boldSystemFont(ofSize: 20)
         titleLabel.numberOfLines = 0
@@ -31,6 +32,7 @@ class PostDetailViewController: BaseViewController {
     private lazy var detailTextLabel: UILabel = {
         let detailTextLabel = UILabel()
         detailTextLabel.text = ""
+        detailTextLabel.textColor = .black
         detailTextLabel.translatesAutoresizingMaskIntoConstraints = false
         detailTextLabel.numberOfLines = 0
         scrollView.addSubview(detailTextLabel)
@@ -39,6 +41,7 @@ class PostDetailViewController: BaseViewController {
     private lazy var likesCountLabel: UILabel = {
         let likesCountLabel = UILabel()
         likesCountLabel.text = ""
+        likesCountLabel.textColor = .black
         likesCountLabel.translatesAutoresizingMaskIntoConstraints = false
         likesCountLabel.font = .boldSystemFont(ofSize: 17)
         scrollView.addSubview(likesCountLabel)
@@ -47,6 +50,7 @@ class PostDetailViewController: BaseViewController {
     private lazy var publishDateLabel: UILabel = {
         let publishDateLabel = UILabel()
         publishDateLabel.text = ""
+        publishDateLabel.textColor = .black
         publishDateLabel.translatesAutoresizingMaskIntoConstraints = false
         publishDateLabel.font = .boldSystemFont(ofSize: 17)
         publishDateLabel.textAlignment = .right
@@ -166,7 +170,7 @@ class PostDetailViewController: BaseViewController {
     
     private func configureImageStackView(post: DetailPostModel) {
         for imageURL in post.images {
-            DispatchQueue.global().async { [weak self] in
+            DispatchQueue.global().sync  { [weak self] in
                 guard let url = URL(string: imageURL),
                       let data = try? Data(contentsOf: url),
                       let image = UIImage(data: data) else { return }
@@ -176,6 +180,7 @@ class PostDetailViewController: BaseViewController {
                 }
             }
         }
+        hideActivityIndicator()
     }
     
     private func getImageView(with image: UIImage) -> UIImageView {
