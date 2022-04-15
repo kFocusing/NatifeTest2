@@ -7,16 +7,16 @@
 
 import UIKit
 
-class GalleryPreviewPostCollectionViewCell: BaseCollectionViewCell {
+class GalleryPreviewPostCollectionViewCell: DynamicHeightCollectionViewCell {
     
-    //MARK: - UIElements -
+    //MARK: - IBOutlets -
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var previewTextLabel: UILabel!
     @IBOutlet private weak var publishDateLabel: UILabel!
     @IBOutlet private weak var likesCount: UILabel!
     @IBOutlet private weak var readMoreButton: UIButton!
     
-    //MARK: - Variables -
+    //MARK: - Properties -
     private var readMoreTapped: EmptyBlock?
     private let maximumNumberOfLinesCollapsed = 2
     
@@ -24,8 +24,9 @@ class GalleryPreviewPostCollectionViewCell: BaseCollectionViewCell {
     func configure(post: PreviewPostModel?, readMoreTapped: EmptyBlock?) {
         self.readMoreTapped = readMoreTapped
         self.backgroundColor = .white
+        addBorder()
         configureTextFields(post: post)
-        configure(post?.isExpanded ?? false)
+        configureReadMore(post?.isExpanded ?? false)
     }
     
     //MARK: - Private -
@@ -36,11 +37,11 @@ class GalleryPreviewPostCollectionViewCell: BaseCollectionViewCell {
     private func configureTextFields(post: PreviewPostModel?) {
         titleLabel.text = post?.title ?? ""
         previewTextLabel.text = post?.previewText ?? ""
-        publishDateLabel.text = post?.timeshamp.timeshampToDateString() ?? ""
+        publishDateLabel.text = Date.timeshampToDateString(post?.timeshamp)
         likesCount.text = String(post?.likesCount ?? 0)
     }
     
-    private func configure(_ isExpanded: Bool) {
+    private func configureReadMore(_ isExpanded: Bool) {
         isExpanded ? setup(for: .fullPreview) : setup(for: .shortPreview)
         readMoreButton.isHidden = previewTextLabel.numberOfTextLines <= maximumNumberOfLinesCollapsed
     }

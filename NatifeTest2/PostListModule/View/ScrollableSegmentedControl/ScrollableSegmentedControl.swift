@@ -31,7 +31,7 @@ class DynamicSegmentedControl: UIView {
     
     private var selectionIndicator = UIView()
     
-    //MARK: - Private Variables -
+    //MARK: - Private Properties -
     private var segmentedItems: [String] = []
     
     private let textFont: UIFont = .boldSystemFont(ofSize: 17)
@@ -54,7 +54,7 @@ class DynamicSegmentedControl: UIView {
     
     private var isDrawed: Bool = false
     
-    private var changeSelectedItem: ((Int) -> Void)?
+    private var changeSelectedItem: ((ListDisplayMode) -> Void)?
     
     //MARK: - Life Cycle -
     override init(frame: CGRect) {
@@ -62,7 +62,7 @@ class DynamicSegmentedControl: UIView {
         initSubviews()
     }
     
-    required init(changeSelectedItem: ((Int) -> Void)?,
+    required init(changeSelectedItem: ((ListDisplayMode) -> Void)?,
                   segmentedItems: [String],
                   textFont: UIFont = .boldSystemFont(ofSize: 17),
                   textColor: UIColor = .blue,
@@ -79,7 +79,7 @@ class DynamicSegmentedControl: UIView {
         initSubviews()
     }
     
-    required init(changeSelectedItem: ((Int) -> Void)?,
+    required init(changeSelectedItem: ((ListDisplayMode) -> Void)?,
                   textFont: UIFont = .boldSystemFont(ofSize: 17),
                   textColor: UIColor = .blue,
                   underlineColor: UIColor = .blue,
@@ -211,7 +211,7 @@ extension DynamicSegmentedControl: UICollectionViewDelegate {
         collectionView.scrollToItem(at: indexPath,
                                     at: .centeredHorizontally,
                                     animated: true)
-        changeSelectedItem?(indexPath.item)
+        changeSelectedItem?(ListDisplayMode.getModByNumber(indexPath.item))
     }
 }
 

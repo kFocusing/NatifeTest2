@@ -55,14 +55,10 @@ extension UIView {
         layer.rasterizationScale = UIScreen.main.scale
     }
     
-    func addBorder(cornerRadius: CGFloat = 5,
-                   borderWidth: CGFloat = 2,
-                   shadowOffset: CGSize = CGSize(width: -1, height: 1),
+    func addBorder(borderWidth: CGFloat = 2,
                    borderColor: UIColor = .black) {
         layer.masksToBounds = true
-        layer.cornerRadius = cornerRadius
         layer.borderWidth = borderWidth
-        layer.shadowOffset = CGSize(width: -1, height: 1)
         layer.borderColor = borderColor.cgColor
     }
 }
