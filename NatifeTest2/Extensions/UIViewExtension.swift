@@ -36,4 +36,28 @@ extension UIView {
         ])
         setNeedsLayout()
     }
+    
+    //MARK: - Shadow -
+    func addDropShadow(shadowOpacity: Float,
+                       shadowRadius: CGFloat,
+                       shadowOffset: CGSize,
+                       shadowColor: CGColor,
+                       cornerRadius: CGFloat? = nil) {
+        layer.masksToBounds = false
+        layer.shadowColor = shadowColor
+        layer.shadowOffset = shadowOffset
+        layer.shadowOpacity = shadowOpacity
+        layer.shadowRadius = shadowRadius
+        layer.shadowOffset = shadowOffset
+        layer.shadowPath = UIBezierPath(roundedRect: self.bounds,
+                                        cornerRadius: cornerRadius ?? self.layer.cornerRadius).cgPath
+        layer.shouldRasterize = true
+        layer.rasterizationScale = UIScreen.main.scale
+    }
+    
+    func addBorder(borderWidth: CGFloat = 2,
+                   borderColor: UIColor = .black) {
+        layer.borderWidth = borderWidth
+        layer.borderColor = borderColor.cgColor
+    }
 }

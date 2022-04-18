@@ -30,7 +30,9 @@ class BaseViewController: UIViewController {
     }
     
     func hideActivityIndicator() {
-        activityIndicator.stopAnimating()
+        DispatchQueue.main.async { [weak self] in
+            self?.activityIndicator.stopAnimating()
+        }
     }
     
     func configureErrorAlert(with error: String?) {

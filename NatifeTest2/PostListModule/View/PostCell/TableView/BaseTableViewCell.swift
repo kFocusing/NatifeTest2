@@ -8,8 +8,8 @@
 import UIKit
 
 class BaseTableViewCell: UITableViewCell,
-                            CellRegistable,
-                            CellDequeueReusable {
+                            TableViewCellRegistable,
+                            TableViewCellDequeueReusable {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }

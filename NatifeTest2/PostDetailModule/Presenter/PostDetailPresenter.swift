@@ -24,7 +24,7 @@ protocol PostDetailViewPresenterProtocol: AnyObject {
 
 class PostDetailPresenter: PostDetailViewPresenterProtocol {
     
-    //MARK: - Variables -
+    //MARK: - Properties -
     private weak var view: PostDetailViewProtocol?
     private var router: RouterProtocol?
     private let postsService: PostsServiceProtocol!
