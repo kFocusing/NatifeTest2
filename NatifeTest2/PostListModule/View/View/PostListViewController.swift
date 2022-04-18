@@ -284,5 +284,7 @@ enum ListDisplayMode: Int, CaseIterable {
         }
     }
     
-    case list = 0, grid = 1, gallery = 2
+    case list = 0
+    case grid
+    case gallery
 }
