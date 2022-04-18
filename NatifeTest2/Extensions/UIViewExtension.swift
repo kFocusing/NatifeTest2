@@ -57,7 +57,6 @@ extension UIView {
     
     func addBorder(borderWidth: CGFloat = 2,
                    borderColor: UIColor = .black) {
-        layer.masksToBounds = true
         layer.borderWidth = borderWidth
         layer.borderColor = borderColor.cgColor
     }

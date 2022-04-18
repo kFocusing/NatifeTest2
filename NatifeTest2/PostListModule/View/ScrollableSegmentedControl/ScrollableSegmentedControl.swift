@@ -211,7 +211,7 @@ extension DynamicSegmentedControl: UICollectionViewDelegate {
         collectionView.scrollToItem(at: indexPath,
                                     at: .centeredHorizontally,
                                     animated: true)
-        changeSelectedItem?(ListDisplayMode.getModByNumber(indexPath.item))
+        changeSelectedItem?(ListDisplayMode(rawValue: indexPath.item) ?? .list)
     }
 }
 

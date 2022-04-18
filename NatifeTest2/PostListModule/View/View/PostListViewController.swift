@@ -24,7 +24,7 @@ class PostListViewController: BaseViewController {
     
     private lazy var dynamicSegmentedControl: DynamicSegmentedControl = {
         let dynamicSegmentedControl = DynamicSegmentedControl(changeSelectedItem: updateSelectedViewType)
-        let segmentArray = ListDisplayMode.allValues
+        let segmentArray = ListDisplayMode.allTitles
         dynamicSegmentedControl.configure(with: segmentArray)
         dynamicSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(dynamicSegmentedControl)
@@ -41,6 +41,7 @@ class PostListViewController: BaseViewController {
     private let sectionInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     
     private var listDisplayMode: ListDisplayMode = .list
+    private var readMoreHandler: EmptyBlock?
     
     //MARK: - Life Cycle -
     override func viewDidLoad() {
@@ -92,11 +93,10 @@ class PostListViewController: BaseViewController {
         collectionView.delegate = self
         collectionView.showsHorizontalScrollIndicator = false
         
-        
         view.addSubview(collectionView)
+        layoutCollectionView()
         GridPreviewPostCollectionViewCell.registerXIB(in: collectionView)
         GalleryPreviewPostCollectionViewCell.registerXIB(in: collectionView)
-        layoutCollectionView()
         collectionView.isHidden = true
     }
     
@@ -162,6 +162,7 @@ class PostListViewController: BaseViewController {
         return widthPerItem
     }
     
+    
     private func updateSelectedViewType(_ selectedListDisplayMode: ListDisplayMode) {
         switch selectedListDisplayMode {
         case .list:
@@ -207,8 +208,7 @@ extension PostListViewController: UITableViewDataSource {
 extension PostListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
-        let post = presenter.getPost(at: indexPath.row)?.postID ?? 0
-        presenter.showPostDetail(with: post)
+        presenter.showPostDetail(with: presenter.getPost(at: indexPath.row)?.postID ?? 0)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
@@ -225,11 +225,9 @@ extension PostListViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
-        let post = presenter.getPost(at: indexPath.row)?.postID ?? 0
-        presenter.showPostDetail(with: post)
+        presenter.showPostDetail(with: presenter.getPost(at: indexPath.row)?.postID ?? 0)
     }
 }
-
 
 //MARK: - UICollectionViewDataSource -
 extension PostListViewController: UICollectionViewDataSource {
@@ -282,21 +280,23 @@ extension PostListViewController: UISearchResultsUpdating {
 }
 
 //MARK: - ListDisplayMode Enum -
-enum ListDisplayMode: String, CaseIterable {
-    static var allValues: [RawValue] {
-        return allCases.map { $0.rawValue }
+enum ListDisplayMode: Int, CaseIterable {
+    static var allTitles: [String] {
+        allCases.map { return $0.title }
     }
     
-    static func getModByNumber(_ number: Int) -> ListDisplayMode {
-        if number == 0 {
-            return .list
-        } else if number == 1 {
-            return .grid
-        } else {
-            return .gallery
+    var title: String {
+        switch rawValue {
+        case 0:
+            return "List"
+        case 1:
+            return "Grid"
+        default:
+            return "Gallery"
         }
     }
     
-    case list = "list", grid = "grid", gallery = "gallery"
+    case list = 0
+    case grid
+    case gallery
 }
-

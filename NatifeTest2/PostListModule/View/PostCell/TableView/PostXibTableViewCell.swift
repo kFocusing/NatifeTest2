@@ -22,7 +22,8 @@ class PostXibTableViewCell: BaseTableViewCell {
     func configure(post: PreviewPostModel?, readMoreTapped: EmptyBlock?) {
         self.readMoreTapped = readMoreTapped
         configureTextFields(post: post)
-        configureReadMoreButton(post?.isExpanded ?? false)
+        configurePreviewTextSize(post?.isExpanded ?? false)
+        configureReadMoreButton()
     }
     
     //MARK: - Private -
@@ -37,9 +38,13 @@ class PostXibTableViewCell: BaseTableViewCell {
         likesCount.text = String(post?.likesCount ?? 0)
     }
     
-    private func configureReadMoreButton(_ isExpanded: Bool) {
-        isExpanded ? setup(for: .fullPreview) : setup(for: .shortPreview)
+    
+    private func configureReadMoreButton() {
         readMoreButton.isHidden = previewTextLabel.numberOfTextLines <= maximumNumberOfLinesCollapsed
+    }
+    
+    private func configurePreviewTextSize(_ isExpanded: Bool) {
+        isExpanded ? setup(for: .fullPreview) : setup(for: .shortPreview)
     }
     
     private func setup(for displayingMode: PreviewTextDisplayingMode) {
