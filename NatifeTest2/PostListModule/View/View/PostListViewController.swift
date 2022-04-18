@@ -24,7 +24,7 @@ class PostListViewController: BaseViewController {
     
     private lazy var dynamicSegmentedControl: DynamicSegmentedControl = {
         let dynamicSegmentedControl = DynamicSegmentedControl(changeSelectedItem: updateSelectedViewType)
-        let segmentArray = ListDisplayMode.allValues
+        let segmentArray = ListDisplayMode.allTitles
         dynamicSegmentedControl.configure(with: segmentArray)
         dynamicSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(dynamicSegmentedControl)
@@ -39,6 +39,8 @@ class PostListViewController: BaseViewController {
     private let sectionInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     
     private var listDisplayMode: ListDisplayMode = .list
+    private var readMoreHandler: EmptyBlock?
+    
     
     //MARK: - Life Cycle -
     override func viewDidLoad() {
@@ -169,6 +171,14 @@ class PostListViewController: BaseViewController {
             collectionView.reloadData()
         }
     }
+    
+    private func reload() {
+        if listDisplayMode == .list {
+            tableView.reloadData()
+        } else {
+            collectionView.reloadData()
+        }
+    }
 }
 
 //MARK: - TableViewExtensions -
@@ -233,6 +243,7 @@ extension PostListViewController: UICollectionViewDataSource {
             cell.configure(post: presenter.item(at: indexPath.row)) { [weak self] in
                 self?.presenter.toglePostIsExpanded(for: indexPath.item)
             }
+
             return cell
         case .grid:
             let cell = GridPreviewPostCollectionViewCell.dequeueCellWithType(in: collectionView,
@@ -247,8 +258,7 @@ extension PostListViewController: UICollectionViewDataSource {
 extension PostListViewController: PostListViewProtocol {
     func update() {
         DispatchQueue.main.async { [weak self] in
-            self?.tableView.reloadData()
-            self?.collectionView.reloadData()
+            self?.reload()
         }
     }
     
@@ -258,21 +268,21 @@ extension PostListViewController: PostListViewProtocol {
 }
 
 //MARK: - ListDisplayMode Enum -
-enum ListDisplayMode: String, CaseIterable {
-    static var allValues: [RawValue] {
-        return allCases.map { $0.rawValue }
+enum ListDisplayMode: Int, CaseIterable {
+    static var allTitles: [String] {
+        allCases.map { return $0.title }
     }
     
-    static func getModByNumber(_ number: Int) -> ListDisplayMode {
-        switch number {
+    var title: String {
+        switch rawValue {
         case 0:
-            return .list
+            return "List"
         case 1:
-            return .grid
+            return "Grid"
         default:
-            return .gallery
+            return "Gallery"
         }
     }
     
-    case list = "list", grid = "grid", gallery = "gallery"
+    case list = 0, grid = 1, gallery = 2
 }

@@ -26,7 +26,8 @@ class GalleryPreviewPostCollectionViewCell: DynamicHeightCollectionViewCell {
         self.backgroundColor = .white
         addBorder()
         configureTextFields(post: post)
-        configureReadMore(post?.isExpanded ?? false)
+        configurePreviewTextSize(post?.isExpanded ?? false)
+        configureReadMoreButton()
     }
     
     //MARK: - Private -
@@ -41,9 +42,12 @@ class GalleryPreviewPostCollectionViewCell: DynamicHeightCollectionViewCell {
         likesCount.text = String(post?.likesCount ?? 0)
     }
     
-    private func configureReadMore(_ isExpanded: Bool) {
-        isExpanded ? setup(for: .fullPreview) : setup(for: .shortPreview)
+    private func configureReadMoreButton() {
         readMoreButton.isHidden = previewTextLabel.numberOfTextLines <= maximumNumberOfLinesCollapsed
+    }
+    
+    private func configurePreviewTextSize(_ isExpanded: Bool) {
+        isExpanded ? setup(for: .fullPreview) : setup(for: .shortPreview)
     }
     
     private func setup(for displayingMode: PreviewTextDisplayingMode) {
