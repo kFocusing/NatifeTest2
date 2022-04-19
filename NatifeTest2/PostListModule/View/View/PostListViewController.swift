@@ -167,6 +167,7 @@ class PostListViewController: BaseViewController {
             listDisplayMode = .list
             tableView.isHidden = false
             collectionView.isHidden = true
+            tableView.reloadData()
         case .grid:
             itemsPerRow = 2
             listDisplayMode = .grid
@@ -180,10 +181,19 @@ class PostListViewController: BaseViewController {
             collectionView.isHidden = false
             collectionView.reloadData()
         }
+        presenter.changeDisplayMode()
     }
     
     private func showPostDetail(with indexPath: IndexPath) {
         presenter.showPostDetail(with: presenter.getPost(at: indexPath.row)?.postID ?? 0)
+    }
+    
+    private func reload() {
+        if listDisplayMode == .list {
+            tableView.reloadData()
+        } else {
+            collectionView.reloadData()
+        }
     }
 }
 
@@ -262,8 +272,7 @@ extension PostListViewController: UICollectionViewDataSource {
 extension PostListViewController: PostListViewProtocol {
     func update() {
         DispatchQueue.main.async { [weak self] in
-            self?.tableView.reloadData()
-            self?.collectionView.reloadData()
+            self?.reload()
         }
     }
     
