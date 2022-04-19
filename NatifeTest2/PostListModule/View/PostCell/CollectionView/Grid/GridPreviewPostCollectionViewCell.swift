@@ -14,13 +14,13 @@ class GridPreviewPostCollectionViewCell: DynamicHeightCollectionViewCell {
     @IBOutlet private weak var previewTextLabel: UILabel!
     @IBOutlet private weak var publishDateLabel: UILabel!
     @IBOutlet private weak var likesCount: UILabel!
-    
-    
+
     //MARK: - Internal -
     func configure(post: PreviewPostModel?) {
         self.backgroundColor = .white
         addBorder()
         configureTextFields(post: post)
+        addBorder()
     }
     
     //MARK: - Private -

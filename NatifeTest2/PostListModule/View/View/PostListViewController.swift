@@ -32,17 +32,15 @@ class PostListViewController: BaseViewController {
     }()
     
     private var collectionView: UICollectionView!
-    
-    private var searchController = UISearchController(searchResultsController: nil)
-    
+
     //MARK: - Properties -
     var presenter: PostListPresenterProtocol!
     private var itemsPerRow: CGFloat = 1
     private let sectionInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-    
+    private var searchController = UISearchController(searchResultsController: nil)
     private var listDisplayMode: ListDisplayMode = .list
     private var readMoreHandler: EmptyBlock?
-    
+
     //MARK: - Life Cycle -
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,6 +110,8 @@ class PostListViewController: BaseViewController {
     
     private func setupNavigationBar() {
         title = "Post List"
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
+        navigationItem.titleView?.backgroundColor = .white
         navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: #selector(sortPressed)), animated: true)
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
         navigationItem.titleView?.backgroundColor = .white

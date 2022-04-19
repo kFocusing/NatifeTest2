@@ -38,7 +38,6 @@ class PostXibTableViewCell: BaseTableViewCell {
         likesCount.text = String(post?.likesCount ?? 0)
     }
     
-    
     private func configureReadMoreButton() {
         readMoreButton.isHidden = previewTextLabel.numberOfTextLines <= maximumNumberOfLinesCollapsed
     }

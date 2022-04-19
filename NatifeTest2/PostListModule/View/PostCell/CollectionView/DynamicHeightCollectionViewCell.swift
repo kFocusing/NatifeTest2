@@ -2,7 +2,7 @@
 //  DynamicHeightCollectionViewCell.swift
 //  NatifeTest2
 //
-//  Created by Danylo Klymov on 14.04.2022.
+//  Created by Danylo Klymov on 15.04.2022.
 //
 
 import UIKit
