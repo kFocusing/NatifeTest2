@@ -32,21 +32,21 @@ class PostListViewController: BaseViewController {
     }()
     
     private var collectionView: UICollectionView!
-    
+
     //MARK: - Properties -
     var presenter: PostListPresenterProtocol!
     private var itemsPerRow: CGFloat = 1
     private let sectionInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-    
+    private var searchController = UISearchController(searchResultsController: nil)
     private var listDisplayMode: ListDisplayMode = .list
     private var readMoreHandler: EmptyBlock?
-    
-    
+
     //MARK: - Life Cycle -
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupNavigationBar()
+        setupSearchBar()
         setupTableView()
         setupCollectionView()
         layoutDynamicSegmentedControl()
@@ -76,6 +76,7 @@ class PostListViewController: BaseViewController {
     private func setupTableView() {
         layoutTableView()
         PostXibTableViewCell.registerXIB(in: tableView)
+        
     }
     
     private func setupCollectionView() {
@@ -112,6 +113,15 @@ class PostListViewController: BaseViewController {
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
         navigationItem.titleView?.backgroundColor = .white
         navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: #selector(sortPressed)), animated: true)
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
+        navigationItem.titleView?.backgroundColor = .white
+        navigationItem.searchController = searchController
+    }
+    
+    private func setupSearchBar() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Post"
     }
     
     @objc private func sortPressed() {
@@ -157,6 +167,7 @@ class PostListViewController: BaseViewController {
             listDisplayMode = .list
             tableView.isHidden = false
             collectionView.isHidden = true
+            tableView.reloadData()
         case .grid:
             itemsPerRow = 2
             listDisplayMode = .grid
@@ -170,6 +181,11 @@ class PostListViewController: BaseViewController {
             collectionView.isHidden = false
             collectionView.reloadData()
         }
+        presenter.resetExpandedState()
+    }
+    
+    private func showPostDetail(with indexPath: IndexPath) {
+        presenter.showPostDetail(with: presenter.getPost(at: indexPath.row)?.postID ?? 0)
     }
     
     private func reload() {
@@ -192,8 +208,7 @@ extension PostListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = PostXibTableViewCell.dequeueCell(in: tableView, indexPath: indexPath)
-        let item = presenter.item(at: indexPath.row)
-        cell.configure(post: item) { [weak self] in
+        cell.configure(post: presenter.getPost(at: indexPath.row) ) { [weak self] in
             self?.presenter.toglePostIsExpanded(for: indexPath.row)
         }
         return cell
@@ -204,7 +219,7 @@ extension PostListViewController: UITableViewDataSource {
 extension PostListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
-        presenter.showPostDetail(with: presenter.item(at: indexPath.row)?.postID ?? 0)
+        showPostDetail(with: indexPath)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
@@ -221,10 +236,9 @@ extension PostListViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
-        presenter.showPostDetail(with: presenter.item(at: indexPath.row)?.postID ?? 0)
+        showPostDetail(with: indexPath)
     }
 }
-
 
 //MARK: - UICollectionViewDataSource -
 extension PostListViewController: UICollectionViewDataSource {
@@ -235,20 +249,20 @@ extension PostListViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let item = presenter.getPost(at: indexPath.row)
         switch listDisplayMode {
         case .list: fallthrough
         case .gallery:
             let cell = GalleryPreviewPostCollectionViewCell.dequeueCellWithType(in: collectionView,
                                                                                 indexPath: indexPath)
-            cell.configure(post: presenter.item(at: indexPath.row)) { [weak self] in
+            cell.configure(post: item) { [weak self] in
                 self?.presenter.toglePostIsExpanded(for: indexPath.item)
             }
-
             return cell
         case .grid:
             let cell = GridPreviewPostCollectionViewCell.dequeueCellWithType(in: collectionView,
                                                                              indexPath: indexPath)
-            cell.configure(post: presenter.item(at: indexPath.row))
+            cell.configure(post: item)
             return cell
         }
     }
@@ -264,6 +278,13 @@ extension PostListViewController: PostListViewProtocol {
     
     func displayError(_ error: String) {
         configureErrorAlert(with: error)
+    }
+}
+
+// MARK: - UISearchResultsUpdating -
+extension PostListViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        presenter.search(with: searchController.searchBar.text ?? "")
     }
 }
 

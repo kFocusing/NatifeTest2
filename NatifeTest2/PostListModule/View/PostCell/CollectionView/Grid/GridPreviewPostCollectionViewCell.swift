@@ -18,6 +18,7 @@ class GridPreviewPostCollectionViewCell: DynamicHeightCollectionViewCell {
     //MARK: - Internal -
     func configure(post: PreviewPostModel?) {
         self.backgroundColor = .white
+        addBorder()
         configureTextFields(post: post)
         addBorder()
     }

@@ -47,8 +47,8 @@ extension CollectionCellRegistable {
         collectionView.register(Self.self, forCellWithReuseIdentifier: String(describing: self))
     }
     
-    static func registerXIB(in tableView: UICollectionView) {
-        tableView.register(UINib(nibName: String(describing: self), bundle: nil),
+    static func registerXIB(in collectionView: UICollectionView) {
+        collectionView.register(UINib(nibName: String(describing: self), bundle: nil),
                            forCellWithReuseIdentifier: String(describing: self))
     }
 }
