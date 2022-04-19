@@ -181,7 +181,7 @@ class PostListViewController: BaseViewController {
             collectionView.isHidden = false
             collectionView.reloadData()
         }
-        presenter.changeDisplayMode()
+        presenter.defaultPostIsExpanded()
     }
     
     private func showPostDetail(with indexPath: IndexPath) {
