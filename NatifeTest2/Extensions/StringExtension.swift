@@ -8,7 +8,7 @@
 import Foundation
 
 extension String {
-    func isNonEmpty() -> Bool{
+    func isNotEmpty() -> Bool{
         return !self.isEmpty
     }
 }

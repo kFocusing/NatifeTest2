@@ -116,7 +116,6 @@ class PostListViewController: BaseViewController {
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
         navigationItem.titleView?.backgroundColor = .white
         navigationItem.searchController = searchController
-        definesPresentationContext = true
     }
     
     private func setupSearchBar() {
@@ -162,7 +161,6 @@ class PostListViewController: BaseViewController {
         return widthPerItem
     }
     
-    
     private func updateSelectedViewType(_ selectedListDisplayMode: ListDisplayMode) {
         switch selectedListDisplayMode {
         case .list:
@@ -183,6 +181,10 @@ class PostListViewController: BaseViewController {
             collectionView.reloadData()
         }
     }
+    
+    private func showPostDetail(with indexPath: IndexPath) {
+        presenter.showPostDetail(with: presenter.getPost(at: indexPath.row)?.postID ?? 0)
+    }
 }
 
 //MARK: - TableViewExtensions -
@@ -196,8 +198,7 @@ extension PostListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = PostXibTableViewCell.dequeueCell(in: tableView, indexPath: indexPath)
-        let item: PreviewPostModel? = presenter.getPost(at: indexPath.row)
-        cell.configure(post: item) { [weak self] in
+        cell.configure(post: presenter.getPost(at: indexPath.row) ) { [weak self] in
             self?.presenter.toglePostIsExpanded(for: indexPath.row)
         }
         return cell
@@ -208,7 +209,7 @@ extension PostListViewController: UITableViewDataSource {
 extension PostListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
-        presenter.showPostDetail(with: presenter.getPost(at: indexPath.row)?.postID ?? 0)
+        showPostDetail(with: indexPath)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
@@ -225,7 +226,7 @@ extension PostListViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
-        presenter.showPostDetail(with: presenter.getPost(at: indexPath.row)?.postID ?? 0)
+        showPostDetail(with: indexPath)
     }
 }
 
@@ -274,8 +275,7 @@ extension PostListViewController: PostListViewProtocol {
 // MARK: - UISearchResultsUpdating -
 extension PostListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        presenter.updateSearchText(searchController.searchBar.text ?? "")
-        update()
+        presenter.search(with: searchController.searchBar.text ?? "")
     }
 }
 

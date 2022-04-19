@@ -24,7 +24,7 @@ protocol PostListPresenterProtocol: AnyObject {
     func showPostDetail(with postID: Int)
     func toglePostIsExpanded(for index: Int)
     func sortPosts(by criterion: SortType)
-    func updateSearchText(_ text: String)
+    func search(with searhText: String)
 }
 
 class PostListPresenter: PostListPresenterProtocol {
@@ -40,7 +40,7 @@ class PostListPresenter: PostListPresenterProtocol {
     }
     private var searchText = ""
     private var isSearchActive: Bool {
-        return searchText.isNonEmpty()
+        return searchText.isNotEmpty()
     }
     
     //MARK: - Life Cycle -
@@ -63,8 +63,8 @@ class PostListPresenter: PostListPresenterProtocol {
         return dataSource[index]
     }
     
-    func updateSearchText(_ text: String) {
-        searchText = text
+    func search(with searhText: String) {
+        searchText = searhText
         updateSearchResults()
     }
     
@@ -127,6 +127,7 @@ class PostListPresenter: PostListPresenterProtocol {
         searchResults = posts.filter({ (post: PreviewPostModel) -> Bool in
             return post.title.lowercased().contains(searchText.lowercased())
         })
+        view?.update()
     }
 }
 
