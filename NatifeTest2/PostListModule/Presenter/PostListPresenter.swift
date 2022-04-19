@@ -25,7 +25,7 @@ protocol PostListPresenterProtocol: AnyObject {
     func toglePostIsExpanded(for index: Int)
     func sortPosts(by criterion: SortType)
     func search(with searhText: String)
-    func defaultPostIsExpanded()
+    func resetExpandedState()
 }
 
 class PostListPresenter: PostListPresenterProtocol {
@@ -104,7 +104,7 @@ class PostListPresenter: PostListPresenterProtocol {
         view?.update()
     }
     
-    func defaultPostIsExpanded() {
+    func resetExpandedState() {
         posts.indices.forEach { posts[$0].isExpanded = false }
         searchResults.indices.forEach { posts[$0].isExpanded = false }
     }
