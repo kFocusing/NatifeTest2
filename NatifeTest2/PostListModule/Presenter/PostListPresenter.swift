@@ -26,6 +26,8 @@ protocol PostListPresenterProtocol: AnyObject {
     func sortPosts(by criterion: SortType)
     func search(with searhText: String)
     func resetExpandedState()
+    func getSearchText() -> String
+    func getItemsBySearch(_ text: String?)
 }
 
 class PostListPresenter: PostListPresenterProtocol {
@@ -43,6 +45,7 @@ class PostListPresenter: PostListPresenterProtocol {
     private var isSearchActive: Bool {
         return searchText.isNotEmpty()
     }
+    private var workItem: DispatchWorkItem?
     
     //MARK: - Life Cycle -
     required init(view: PostListViewProtocol,
@@ -62,6 +65,10 @@ class PostListPresenter: PostListPresenterProtocol {
     
     func getPost(at index: Int) -> PreviewPostModel? {
         return dataSource[index]
+    }
+    
+    func getSearchText() -> String {
+        return searchText
     }
     
     func search(with searhText: String) {
@@ -109,11 +116,30 @@ class PostListPresenter: PostListPresenterProtocol {
         searchResults.indices.forEach { posts[$0].isExpanded = false }
     }
     
+    func getItemsBySearch(_ searchText: String?) {
+        guard let searchText = searchText else { return }
+        if searchText.count > 2 {
+            if ((workItem?.isCancelled) != nil) {
+                workItem?.cancel()
+            }
+            let localWorkItem = DispatchWorkItem { [weak self] in
+                DispatchQueue.main.async { [weak self] in
+                    self?.search(with: searchText)
+                }
+            }
+            DispatchQueue.global().asyncAfter(deadline: .now() + 2, execute: localWorkItem)
+            workItem = localWorkItem
+        } else {
+           search(with: "")
+        }
+    }
+    
     //MARK: - Private -
     private func getPreviewPosts() {
         self.view?.showActivityIndicator()
         postsService.fetchPostLists(route: "main.json") {  [weak self] response, error in
-            self?.view?.hideActivityIndicator()
+            let fetchGroup = DispatchGroup()
+            fetchGroup.enter()
             if let response = response {
                 DispatchQueue.main.async { [weak self] in
                     self?.posts = response.posts
@@ -125,6 +151,11 @@ class PostListPresenter: PostListPresenterProtocol {
                     return
                 }
                 self?.view?.displayError(error)
+            }
+            fetchGroup.leave()
+        
+            fetchGroup.notify(queue: .main) {
+                self?.view?.hideActivityIndicator()
             }
         }
     }

@@ -170,7 +170,7 @@ class PostDetailViewController: BaseViewController {
     
     private func configureImageStackView(post: DetailPostModel) {
         for imageURL in post.images {
-            DispatchQueue.global().sync  { [weak self] in
+            DispatchQueue.global().sync { [weak self] in
                 guard let url = URL(string: imageURL),
                       let data = try? Data(contentsOf: url),
                       let image = UIImage(data: data) else { return }

@@ -52,7 +52,8 @@ class PostDetailPresenter: PostDetailViewPresenterProtocol {
     private func getDetailPost(postID: Int) {
         view?.showActivityIndicator()
         postsService.fetchPost(route: "posts/\(postID).json") { [weak self] post, error in
-            self?.view?.hideActivityIndicator()
+            let fetchGroup = DispatchGroup()
+            fetchGroup.enter()
             if let post = post {
                 DispatchQueue.main.async { [weak self] in
                     self?.detailPost = post.post
@@ -64,6 +65,11 @@ class PostDetailPresenter: PostDetailViewPresenterProtocol {
                     return
                 }
                 self?.view?.displayError(error)
+            }
+            fetchGroup.leave()
+        
+            fetchGroup.notify(queue: .main) {
+                self?.view?.hideActivityIndicator()
             }
         }
     }
