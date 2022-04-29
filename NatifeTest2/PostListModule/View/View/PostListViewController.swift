@@ -284,7 +284,7 @@ extension PostListViewController: PostListViewProtocol {
 // MARK: - UISearchResultsUpdating -
 extension PostListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        presenter.getItemsBySearch(searchController.searchBar.text)
+        presenter.searchItems(searchController.searchBar.text ?? "")
     }
 }
 

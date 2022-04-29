@@ -103,7 +103,6 @@ class PostDetailViewController: BaseViewController {
         likeImage.image = UIImage(systemName: "heart")
         likesCountLabel.text = String(post.likesCount)
         publishDateLabel.text = Date.timeshampToDateString(post.timeshamp)
-        configureImageStackView(post: post)
     }
     
     private func layoutScrollView() {
@@ -168,20 +167,6 @@ class PostDetailViewController: BaseViewController {
         ])
     }
     
-    private func configureImageStackView(post: DetailPostModel) {
-        for imageURL in post.images {
-            DispatchQueue.global().sync { [weak self] in
-                guard let url = URL(string: imageURL),
-                      let data = try? Data(contentsOf: url),
-                      let image = UIImage(data: data) else { return }
-                DispatchQueue.main.async { [weak self] in
-                    guard let imageView = self?.getImageView(with: image) else { return }
-                    self?.imagesStackView.addArrangedSubview(imageView)
-                }
-            }
-        }
-    }
-    
     private func getImageView(with image: UIImage) -> UIImageView {
         let imageView = UIImageView(image: image)
         NSLayoutConstraint.activate([
@@ -197,6 +182,15 @@ extension PostDetailViewController: PostDetailViewProtocol {
     func update(with detailsModel: DetailPostModel) {
         DispatchQueue.main.async { [weak self] in
             self?.configureDetailView(with: detailsModel)
+        }
+    }
+    
+    func displayImages(_ images: [UIImage]) {
+        for image in images {
+            DispatchQueue.main.async { [weak self] in
+                guard let imageView = self?.getImageView(with: image) else { return }
+                self?.imagesStackView.addArrangedSubview(imageView)
+            }
         }
     }
     

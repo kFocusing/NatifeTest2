@@ -112,6 +112,16 @@
 			path = ScrollableSegmentedControllCell;
 			sourceTree = "<group>";
 		};
+		C77B728C281C2DC100D2D32C /* BaseComponents */ = {
+			isa = PBXGroup;
+			children = (
+				C70BC78F2804200B00CFE8BC /* BaseCollectionViewCell.swift */,
+				C786EB5127F798C0008D36BF /* BaseTableViewCell.swift */,
+				C76E67B827FD0C880023CE9D /* BaseViewController.swift */,
+			);
+			path = BaseComponents;
+			sourceTree = "<group>";
+		};
 		C786EB1927F73577008D36BF = {
 			isa = PBXGroup;
 			children = (
@@ -131,6 +141,7 @@
 		C786EB2427F73577008D36BF /* NatifeTest2 */ = {
 			isa = PBXGroup;
 			children = (
+				C77B728C281C2DC100D2D32C /* BaseComponents */,
 				C786EB7027F9E993008D36BF /* App&SceneDelegate */,
 				C786EB6127F9E86F008D36BF /* Router */,
 				C786EB6227F9E87B008D36BF /* AssebmlyModelBuilder */,
@@ -201,7 +212,6 @@
 			isa = PBXGroup;
 			children = (
 				C786EB5527F798DD008D36BF /* PostDetailViewController.swift */,
-				C76E67B827FD0C880023CE9D /* BaseViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -304,7 +314,6 @@
 			children = (
 				C7D0C2E02804819A00BEB4CB /* Gallery */,
 				C7D0C2DF2804818F00BEB4CB /* Grid */,
-				C70BC78F2804200B00CFE8BC /* BaseCollectionViewCell.swift */,
 				C7D0C2E52808A06700BEB4CB /* DynamicHeightCollectionViewCell.swift */,
 			);
 			path = CollectionView;
@@ -314,7 +323,6 @@
 			isa = PBXGroup;
 			children = (
 				C786EB7727FA007F008D36BF /* PostXibTableViewCell.xib */,
-				C786EB5127F798C0008D36BF /* BaseTableViewCell.swift */,
 				C786EB2927F73577008D36BF /* PostXibTableViewCell.swift */,
 			);
 			path = TableView;
