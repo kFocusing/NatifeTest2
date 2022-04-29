@@ -112,7 +112,7 @@ class PostListPresenter: PostListPresenterProtocol {
     }
     
     func searchItems(_ searchText: String) {
-        if searchText.count >= 2 {
+        if isSearchActive {
             workItem?.cancel()
             let localWorkItem = DispatchWorkItem { [weak self] in
                 self?.search(with: searchText)
