@@ -5,13 +5,14 @@
 //  Created by Danylo Klymov on 01.04.2022.
 //
 
-import Foundation
+import UIKit
 
 protocol PostDetailViewProtocol: AnyObject {
     func update(with detailsModel: DetailPostModel)
     func displayError(_ error: String)
     func showActivityIndicator()
     func hideActivityIndicator()
+    func displayImages(_ images: [UIImage])
 }
 
 protocol PostDetailViewPresenterProtocol: AnyObject {
@@ -48,14 +49,33 @@ class PostDetailPresenter: PostDetailViewPresenterProtocol {
         
     }
     
+    func fetchImages() {
+        var images = [UIImage]()
+        let fetchGroup = DispatchGroup()
+        for imageURL in detailPost?.images ?? [] {
+            fetchGroup.enter()
+            DispatchQueue.global().sync {
+                guard let url = URL(string: imageURL),
+                      let data = try? Data(contentsOf: url),
+                      let image = UIImage(data: data) else { return }
+                images.append(image)
+            }
+            fetchGroup.leave()
+        }
+        fetchGroup.notify(queue: .main) {
+            self.view?.displayImages(images)
+            self.view?.hideActivityIndicator()
+        }
+    }
+    
     //MARK: - Private -
     private func getDetailPost(postID: Int) {
         view?.showActivityIndicator()
         postsService.fetchPost(route: "posts/\(postID).json") { [weak self] post, error in
-            self?.view?.hideActivityIndicator()
             if let post = post {
                 DispatchQueue.main.async { [weak self] in
                     self?.detailPost = post.post
+                    self?.fetchImages()
                     self?.view?.update(with: post.post)
                 }
             } else {

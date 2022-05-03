@@ -26,6 +26,7 @@ protocol PostListPresenterProtocol: AnyObject {
     func sortPosts(by criterion: SortType)
     func search(with searhText: String)
     func resetExpandedState()
+    func searchItems(_ text: String)
 }
 
 class PostListPresenter: PostListPresenterProtocol {
@@ -41,8 +42,9 @@ class PostListPresenter: PostListPresenterProtocol {
     }
     private var searchText = ""
     private var isSearchActive: Bool {
-        return searchText.isNotEmpty()
+        return searchText.count >= 2
     }
+    private var workItem: DispatchWorkItem?
     
     //MARK: - Life Cycle -
     required init(view: PostListViewProtocol,
@@ -107,6 +109,20 @@ class PostListPresenter: PostListPresenterProtocol {
     func resetExpandedState() {
         posts.indices.forEach { posts[$0].isExpanded = false }
         searchResults.indices.forEach { posts[$0].isExpanded = false }
+    }
+    
+    func searchItems(_ searchText: String) {
+        if isSearchActive {
+            workItem?.cancel()
+            let localWorkItem = DispatchWorkItem { [weak self] in
+                self?.search(with: searchText)
+            }
+            DispatchQueue.global().asyncAfter(deadline: .now() + 1, execute: localWorkItem)
+            workItem = localWorkItem
+        } else {
+            self.searchText = searchText
+            view?.update()
+        }
     }
     
     //MARK: - Private -
